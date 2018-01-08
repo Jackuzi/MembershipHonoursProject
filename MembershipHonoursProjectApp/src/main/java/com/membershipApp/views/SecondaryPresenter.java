@@ -15,20 +15,24 @@ public class SecondaryPresenter {
     private View secondary;
 
     public void initialize() {
+
         secondary.setShowTransitionFactory(BounceInRightTransition::new);
-        
-        secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text, 
-            e -> System.out.println("Info")).getLayer());
-        
+
+        secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text,
+                e -> System.out.println("Info")).getLayer());
+
         secondary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 AppBar appBar = MobileApplication.getInstance().getAppBar();
-                appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> 
+                appBar.setNavIcon(MaterialDesignIcon.MENU.button(e ->
                         MobileApplication.getInstance().showLayer(MembershipAppMain.MENU_LAYER)));
                 appBar.setTitleText("Secondary");
-                appBar.getActionItems().add(MaterialDesignIcon.FAVORITE.button(e -> 
+                appBar.getActionItems().add(MaterialDesignIcon.FAVORITE.button(e ->
                         System.out.println("Favorite")));
+
             }
         });
     }
 }
+
+//Kontroler dla widoku mobilnego.

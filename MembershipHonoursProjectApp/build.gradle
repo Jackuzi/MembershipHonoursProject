@@ -14,6 +14,7 @@ repositories {
     maven {
         url 'http://nexus.gluonhq.com/nexus/content/repositories/releases'
     }
+
 }
 
 mainClassName = 'com.membershipApp.MembershipAppMain'
@@ -21,6 +22,12 @@ mainClassName = 'com.membershipApp.MembershipAppMain'
 dependencies {
     compile 'com.gluonhq:charm:4.4.1'
     compile 'com.airhacks:afterburner.mfx:1.6.3'
+
+
+}
+//scenic view libs
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 jfxmobile {

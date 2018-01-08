@@ -10,11 +10,10 @@ import com.gluonhq.charm.glisten.control.NavigationDrawer;
 import com.gluonhq.charm.glisten.control.NavigationDrawer.Item;
 import com.gluonhq.charm.glisten.control.NavigationDrawer.ViewItem;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
-import static com.membershipApp.MembershipAppMain.MENU_LAYER;
-import static com.membershipApp.MembershipAppMain.PRIMARY_VIEW;
-import static com.membershipApp.MembershipAppMain.SECONDARY_VIEW;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+
+import static com.membershipApp.MembershipAppMain.*;
 
 public class DrawerManager {
 
@@ -22,16 +21,18 @@ public class DrawerManager {
 
     public DrawerManager() {
         this.drawer = new NavigationDrawer();
-        
-        NavigationDrawer.Header header = new NavigationDrawer.Header("Gluon Mobile",
-                "Multi View Project",
+
+        NavigationDrawer.Header header = new NavigationDrawer.Header("Membership Management",
+                "Honours Project",
                 new Avatar(21, new Image(DrawerManager.class.getResourceAsStream("/icon.png"))));
         drawer.setHeader(header);
-        
+
         final Item primaryItem = new ViewItem("Primary", MaterialDesignIcon.HOME.graphic(), PRIMARY_VIEW, ViewStackPolicy.SKIP);
         final Item secondaryItem = new ViewItem("Secondary", MaterialDesignIcon.DASHBOARD.graphic(), SECONDARY_VIEW);
         drawer.getItems().addAll(primaryItem, secondaryItem);
-        
+
+
+        //Determine running platform
         if (Platform.isDesktop()) {
             final Item quitItem = new Item("Quit", MaterialDesignIcon.EXIT_TO_APP.graphic());
             quitItem.selectedProperty().addListener((obs, ov, nv) -> {
@@ -41,14 +42,22 @@ public class DrawerManager {
             });
             drawer.getItems().add(quitItem);
         }
-        
-        drawer.addEventHandler(NavigationDrawer.ITEM_SELECTED, 
+
+        drawer.addEventHandler(NavigationDrawer.ITEM_SELECTED,
                 e -> MobileApplication.getInstance().hideLayer(MENU_LAYER));
-        
+
         MobileApplication.getInstance().viewProperty().addListener((obs, oldView, newView) -> updateItem(newView.getName()));
         updateItem(PRIMARY_VIEW);
+
+//to nie to
+        if (Platform.isDesktop()) {
+            drawer.setDisable(true);
+
+
+        }
     }
-    
+
+
     private void updateItem(String nameView) {
         for (Node item : drawer.getItems()) {
             if (item instanceof ViewItem && ((ViewItem) item).getViewName().equals(nameView)) {
@@ -57,7 +66,7 @@ public class DrawerManager {
             }
         }
     }
-    
+
     public NavigationDrawer getDrawer() {
         return drawer;
     }
