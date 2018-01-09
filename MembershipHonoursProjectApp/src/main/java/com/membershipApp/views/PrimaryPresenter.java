@@ -1,8 +1,10 @@
 package com.membershipApp.views;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.control.BottomNavigationButton;
+import com.gluonhq.charm.glisten.control.AppBar;
+import com.gluonhq.charm.glisten.layout.Layer;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.MembershipAppMain;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -10,8 +12,15 @@ import javafx.scene.layout.VBox;
 
 public class PrimaryPresenter {
 
+
     @FXML
     private View primary;
+
+    @FXML
+    private Layer manageLayer;
+
+    @FXML
+    private View welcomeView;
 
     @FXML
     private VBox content;
@@ -20,22 +29,16 @@ public class PrimaryPresenter {
     private Label label;
 
     @FXML
-    private BottomNavigationButton welcome;
+    private View manageView;
+
 
     @FXML
-    private BottomNavigationButton manage;
+    private VBox container;
 
-    @FXML
-    private BottomNavigationButton settings;
-
-    @FXML
-    private BottomNavigationButton membership;
-
-    @FXML
-    private BottomNavigationButton about;
 
     public void initialize() {
-      /*
+
+
         primary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 AppBar appBar = MobileApplication.getInstance().getAppBar();
@@ -46,20 +49,6 @@ public class PrimaryPresenter {
                         System.out.println("Search")));
             }
         });
-        */
-    }
-
-    @FXML
-    void buttonClick() {
-        label.setText("Hello JavaFX Universe!");
-    }
-
-    @FXML
-    void initWelcomeLayer() {
-
-        MobileApplication.getInstance().switchView(MembershipAppMain.WELCOME_VIEW);
-        MobileApplication.getInstance().getAppBar().setVisible(false);
-
     }
 
 

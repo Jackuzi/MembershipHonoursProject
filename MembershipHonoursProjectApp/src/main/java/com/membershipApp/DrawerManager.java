@@ -51,7 +51,8 @@ public class DrawerManager {
 
 //to nie to
         if (Platform.isDesktop()) {
-            drawer.setDisable(true);
+            // drawer.setDisable(true);
+            drawer.isVisible();
 
 
         }

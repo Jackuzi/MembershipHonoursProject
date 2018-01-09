@@ -1,56 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
-<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
-<?import com.gluonhq.charm.glisten.control.Icon?>
+<?import com.gluonhq.charm.glisten.control.TextField?>
 <?import com.gluonhq.charm.glisten.mvc.View?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<View fx:id="primary" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.PrimaryPresenter">
-   <center>
-      <VBox fx:id="content" alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
+<View fx:id="primary" name="primary" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center><TextField text="first view" />
+      <VBox fx:id="container" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#buttonClick" text="Siema">
-               <graphic>
-                  <Icon content="LANGUAGE" />
-               </graphic>
-            </Button>
-            <Label fx:id="label" text="Hello JavaFX World!" />
+            <TextField text="first view" />
          </children>
       </VBox>
    </center>
-   <top>
-      <BottomNavigation BorderPane.alignment="CENTER">
-          <actionItems>
-              <BottomNavigationButton fx:id="welcome" onAction="#initWelcomeLayer" selected="true" text="Welcome">
-                  <graphic>
-                      <Icon content="RECENT_ACTORS" />
-                  </graphic>
-              </BottomNavigationButton>
-              <BottomNavigationButton fx:id="manage" text="Manage Members">
-                  <graphic>
-                      <Icon content="FAVORITE" />
-                  </graphic>
-              </BottomNavigationButton>
-              <BottomNavigationButton fx:id="settings" text="Settings">
-                  <graphic>
-                      <Icon content="NEAR_ME" />
-                  </graphic>
-              </BottomNavigationButton>
-            <BottomNavigationButton fx:id="membership" selected="true" text="Memberships">
-               <graphic>
-                  <Icon content="RECENT_ACTORS" />
-               </graphic>
-            </BottomNavigationButton>
-            <BottomNavigationButton fx:id="about" selected="true" text="Tu tez">
-               <graphic>
-                  <Icon content="RECENT_ACTORS" />
-               </graphic>
-            </BottomNavigationButton>
-          </actionItems>
-      </BottomNavigation>
-   </top>
 </View>
