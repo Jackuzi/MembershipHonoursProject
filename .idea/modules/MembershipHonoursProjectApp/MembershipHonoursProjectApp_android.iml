@@ -22,7 +22,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-21/android.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/controlsfx-8.40.14.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -31,7 +31,6 @@
     <orderEntry type="library" name="Gradle: org.javafxports:jfxdvk:8.60.9" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.android.support:multidex:aar:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-display:3.6.0" level="project" />

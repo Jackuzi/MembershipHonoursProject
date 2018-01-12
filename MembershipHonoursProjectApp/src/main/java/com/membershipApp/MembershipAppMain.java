@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.scenicview.ScenicView;
 
 public class MembershipAppMain extends MobileApplication {
 
@@ -35,6 +34,14 @@ public class MembershipAppMain extends MobileApplication {
 
     public void init() {
         //showSplashScreen();
+
+        //String u ="";
+        //String p = "";
+        //Pair a = new Pair(u,p);
+        //Pair c = new Pair (u,p);
+        //new LoginDialog(null,null).showAndWait().isPresent();
+        //ld.showAndWait();
+
         if (Platform.isDesktop()) {
             addViewFactory(PRIMARY_VIEW, () -> {
                 View view = (View) new PrimaryView().getView();
@@ -108,7 +115,7 @@ public class MembershipAppMain extends MobileApplication {
         ((Stage) scene.getWindow()).getIcons().add(new Image(MembershipAppMain.class.getResourceAsStream("/icon.png")));
 
         //scenicView to delete at final app
-        ScenicView.show(scene);
+        //ScenicView.show(scene);
 
 
     }

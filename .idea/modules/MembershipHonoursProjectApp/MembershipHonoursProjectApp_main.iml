@@ -18,6 +18,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/controlsfx-8.40.14.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />

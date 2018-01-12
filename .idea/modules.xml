@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects-MembershipHonoursProject.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects-MembershipHonoursProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/MembershipHonoursProject.iml" filepath="$PROJECT_DIR$/MembershipHonoursProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp.iml" filepath="$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp.iml" group="MembershipHonoursProjectApp" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_android.iml" filepath="$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_android.iml" group="MembershipHonoursProjectApp" />
@@ -10,7 +11,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_ios.iml" filepath="$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_ios.iml" group="MembershipHonoursProjectApp" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_main.iml" group="MembershipHonoursProjectApp" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MembershipHonoursProjectApp/MembershipHonoursProjectApp_test.iml" group="MembershipHonoursProjectApp" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Projects-MembershipHonoursProject.iml" filepath="$PROJECT_DIR$/.idea/modules/Projects-MembershipHonoursProject.iml" />
     </modules>
   </component>
 </project>
