@@ -65,8 +65,8 @@
                               <Blend />
                            </effect>
                         </TextField>
-                        <TextField promptText="Postcode" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
-                        <TextField promptText="Email" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
+                        <TextField fx:id="postField" promptText="Postcode" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
+                        <TextField fx:id="emailField" promptText="Email" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
                      </children>
                      <padding>
                         <Insets right="20.0" />
@@ -90,12 +90,12 @@
                               <Blend />
                            </effect>
                         </TextField>
-                        <TextField promptText="House Number" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css">
+                        <TextField fx:id="houseField" promptText="House Number" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </TextField>
-                        <TextField promptText="City" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css">
+                        <TextField fx:id="cityField" promptText="City" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -103,7 +103,7 @@
                               <Blend />
                            </effect>
                         </TextField>
-                        <TextField promptText="Telephone" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
+                        <TextField fx:id="telField" promptText="Telephone" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
                      </children>
                      <padding>
                         <Insets right="20.0" />
