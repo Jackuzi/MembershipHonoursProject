@@ -210,6 +210,20 @@ nH.added(message);
 
     }
 
+  /*  private void retrieveDbImage () throws SQLException {
+        ResultSet rs = st.executeQuery(q);
+        byte byteImage[];
+        Blob blob;
+
+        while(rs.next()){
+            blob = rs.getBlob("IMG");
+            byteImage = blob.getBytes(1,(int)blob.length());
+        }
+        Image img = new Image(new ByteArrayInputStream(byteImage));
+        custAvatarHolder.setImage(img);
+
+    }
+*/
     @PostConstruct
     public void inti() {
         nH = new NotificationHandler();
