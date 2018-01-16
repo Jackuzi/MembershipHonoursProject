@@ -1,3 +1,17 @@
 .root {
 
 }
+
+.btn {
+    -fx-text-fill: white;
+}
+
+.btn:selected {
+
+    -fx-text-fill: #ffa31c;
+    -fx-border-color: #0b7a80;
+    -fx-border-radius: 50px;
+    -fx-border-width: 2px;
+
+}
+

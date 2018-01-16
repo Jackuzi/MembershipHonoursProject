@@ -1,19 +1,8 @@
 package com.membershipApp.views;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.control.Avatar;
-import com.gluonhq.charm.glisten.control.DatePicker;
-import com.gluonhq.charm.glisten.control.TextField;
-import com.gluonhq.charm.glisten.mvc.View;
-import com.membershipApp.MemberModel;
-import com.membershipApp.NotificationHandler;
-import javafx.event.ActionEvent;
+import com.gluonhq.charm.glisten.layout.Layer;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -26,78 +15,14 @@ public class ManagePresenter implements Initializable {
 
     @FXML
     private URL location;
-    @FXML
-    private View manageView;
+
 
     @FXML
-    private Label custDetLabel;
+    private Layer manageLayer;
 
     @FXML
-    private Avatar custAvatarHolder;
-
-    @FXML
-    private TextField surField;
-
-    @FXML
-    private Label dobLabel;
-
-    @FXML
-    private TextField streetField;
-
-    @FXML
-    private TextField postField;
-
-    @FXML
-    private TextField emailField;
-
-    @FXML
-    private TextField nameField;
-
-    @FXML
-    private TextField houseField;
-
-    @FXML
-    private TextField cityField;
-
-    @FXML
-    private TextField telField;
-
-    @FXML
-    private TableView<?> custTable;
-
-    @FXML
-    private TableColumn<?, ?> namCol;
-
-    @FXML
-    private TableColumn<?, ?> surCol;
-
-    @FXML
-    private Button addBut;
-
-    @FXML
-    private Button remBut;
-
-    @FXML
-    private Button updBut;
-
-    @FXML
-    private Button memBut;
-
-    @FXML
-    private Button clearBut;
-    private NotificationHandler nH;
-    private String message;
-    private String n;
-    private String s;
-
-    public String getN() {
-        n= nameField.getText();
-        return n;
-    }
-
-    public String getS() {
-        s=surField.getText();
-        return s;
+    void initialize() {
+        System.out.println(MobileApplication.getInstance().getView().getName());
     }
 
     public String getSt() {
@@ -235,5 +160,12 @@ nH.added(message);
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(MobileApplication.getInstance().getView().getName());
 
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        manageView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
+
+        //System.out.println(MobileApplication.getInstance().getView().getName());
     }
 }

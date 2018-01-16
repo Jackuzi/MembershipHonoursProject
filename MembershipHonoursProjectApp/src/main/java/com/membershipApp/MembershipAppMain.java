@@ -61,7 +61,11 @@ public class MembershipAppMain extends MobileApplication {
 
         addViewFactory(REMINDER_VIEW, () -> {
             ReminderView wv = new ReminderView();
-            return (View) wv.getView();
+            View v = (View) wv.getView();
+            // MobileApplication.getInstance().showLayer(REMINDER_VIEW);
+
+            //new BounceInDownTransition(v).play();
+            return v;
         });
         addViewFactory(MANAGE_VIEW, () -> {
             ManageView wv = new ManageView();
@@ -108,7 +112,7 @@ public class MembershipAppMain extends MobileApplication {
             scene.getWindow().setHeight(800);
             scene.getWindow().setWidth(1280);
         }
-        Swatch.INDIGO.assignTo(scene);
+        Swatch.BLUE.assignTo(scene);
         Theme.DARK.assignTo(scene);
 
         scene.getStylesheets().add(MembershipAppMain.class.getResource("style.css").toExternalForm());

@@ -29,7 +29,11 @@ public class BottomNavHandle {
 
 
         BottomNavigation bottomNavigation = new BottomNavigation();
-
+        // btn0.getStyleClass().setAll("btn");
+        //btn1.getStyleClass().setAll("btn");
+        //btn2.getStyleClass().setAll("btn");
+        // btn3.getStyleClass().setAll("btn");
+        // btn4.getStyleClass().setAll("btn");
 
         //Home View
 
@@ -58,6 +62,7 @@ public class BottomNavHandle {
 
         btn2.setOnAction((event) -> {
             // Button was clicked, do something...
+
             MobileApplication.getInstance().switchView(MembershipAppMain.MEMBERSHIP_VIEW);
             MobileApplication.getInstance().getView().setTop(bottomNavigation);
             btn2.setSelected(true);

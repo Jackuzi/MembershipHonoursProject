@@ -1,40 +1,22 @@
 package com.membershipApp.views;
 
+import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
-import com.gluonhq.charm.glisten.layout.Layer;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.MembershipAppMain;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.fxml.Initializable;
 
-public class PrimaryPresenter {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class PrimaryPresenter implements Initializable {
 
 
     @FXML
     private View primary;
-
-    @FXML
-    private Layer manageLayer;
-
-    @FXML
-    private View welcomeView;
-
-    @FXML
-    private VBox content;
-
-    @FXML
-    private Label label;
-
-    @FXML
-    private View manageView;
-
-
-    @FXML
-    private VBox container;
-
 
     public void initialize() {
 
@@ -52,6 +34,12 @@ public class PrimaryPresenter {
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        primary.setShowTransitionFactory(v -> new BounceInUpTransition(v));
+
+
+    }
 }
 
 

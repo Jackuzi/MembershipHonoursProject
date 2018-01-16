@@ -1,6 +1,7 @@
 package com.membershipApp.views;
 
-import com.gluonhq.charm.glisten.control.CharmListView;
+import com.gluonhq.charm.glisten.application.MobileApplication;
+import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.gluonhq.charm.glisten.mvc.View;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,23 +24,30 @@ public class ReminderPresenter implements Initializable {
     private View reminderView;
 
     @FXML
-    private VBox content;
-
+    private View welcome;
     @FXML
-    private CharmListView<?, ?> charmList;
+    private BottomNavigationButton welcome1;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println(welcome.getName());
 
 
+    }
+
+    @FXML
+    void initManageLayer(ActionEvent event) {
+
+        MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW);
+        System.out.println("hello1");
 
     }
 
 
     @PostConstruct
     public void init() {
-
+        System.out.println("init");
 
 
     }

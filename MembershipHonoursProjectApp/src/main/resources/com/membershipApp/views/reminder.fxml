@@ -4,12 +4,13 @@
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-
-<View fx:id="reminderView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" name="reminderView" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.ReminderPresenter">
+<View fx:id="welcome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.membershipApp.views.ReminderPresenter">
     <center>
         <VBox fx:id="content" alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
             <children>
-            <CharmListView fx:id="charmList" />
+                <Label fx:id="label" text="Welcome View"/>
             </children>
         </VBox>
     </center>

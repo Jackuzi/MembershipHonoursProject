@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<View fx:id="primary" name="primary" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<View fx:id="primary" name="primary" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.PrimaryPresenter">
    <center><TextField text="first view" />
       <VBox fx:id="container" BorderPane.alignment="CENTER">
          <children>
