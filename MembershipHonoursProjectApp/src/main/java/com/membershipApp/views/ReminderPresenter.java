@@ -1,11 +1,9 @@
 package com.membershipApp.views;
 
-import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.control.BottomNavigationButton;
+import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.mvc.View;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -23,24 +21,12 @@ public class ReminderPresenter implements Initializable {
     @FXML
     private View reminderView;
 
-    @FXML
-    private View welcome;
-    @FXML
-    private BottomNavigationButton welcome1;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(welcome.getName());
 
+        reminderView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
 
-    }
-
-    @FXML
-    void initManageLayer(ActionEvent event) {
-
-        MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW);
-        System.out.println("hello1");
 
     }
 
