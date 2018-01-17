@@ -2,6 +2,8 @@ package com.membershipApp;
 
 
 import com.gluonhq.charm.down.Platform;
+import com.gluonhq.charm.down.Services;
+import com.gluonhq.charm.down.plugins.LifecycleService;
 import com.gluonhq.charm.glisten.animation.FadeInLeftBigTransition;
 import com.gluonhq.charm.glisten.animation.FadeOutRightBigTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
@@ -17,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class MembershipAppMain extends MobileApplication {
@@ -117,6 +120,18 @@ public class MembershipAppMain extends MobileApplication {
 
         scene.getStylesheets().add(MembershipAppMain.class.getResource("style.css").toExternalForm());
         ((Stage) scene.getWindow()).getIcons().add(new Image(MembershipAppMain.class.getResourceAsStream("/icon.png")));
+
+        //close request
+        scene.getWindow().setOnCloseRequest((WindowEvent we) -> {
+            Services.get(LifecycleService.class).ifPresent(service -> {
+                service.shutdown();
+                System.exit(0);
+
+            });
+
+
+        });
+
 
         //scenicView to delete at final app
         //ScenicView.show(scene);

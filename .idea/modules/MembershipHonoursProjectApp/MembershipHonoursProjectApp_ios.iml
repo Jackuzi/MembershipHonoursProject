@@ -9,16 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="MembershipHonoursProjectApp_main" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/scenicView.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -28,8 +18,19 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/scenicView.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="MembershipHonoursProjectApp_main" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.196" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten:4.4.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-display-ios:3.6.0" level="project" />
@@ -40,8 +41,8 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-lifecycle-ios:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-storage:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:robovm-cocoatouch:2.3.1-ios11" level="project" />
-    <orderEntry type="library" name="Gradle: com.gluonhq:connect:1.4.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-statusbar-ios:3.6.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.gluonhq:connect:1.4.3" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-device:3.6.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-storage-ios:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-in-app-billing:3.6.0" level="project" />

@@ -1,23 +1,25 @@
 package com.membershipApp.views;
 
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
-import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.DatePicker;
 import com.gluonhq.charm.glisten.control.TextField;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.membershipApp.DatabaseConnectionHandler;
 import com.membershipApp.MemberModel;
+import com.membershipApp.Members;
 import com.membershipApp.NotificationHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ManagePresenter implements Initializable {
@@ -64,36 +66,34 @@ public class ManagePresenter implements Initializable {
     private TextField telField;
 
     @FXML
-    private TableView<?> custTable;
+    private TableView<MemberModel> custTable;
+    @FXML
+    private TableColumn<MemberModel, Integer> idCol;
 
     @FXML
-    private TableColumn<?, ?> namCol;
+    private TableColumn<MemberModel, String> namCol;
 
     @FXML
-    private TableColumn<?, ?> surCol;
+    private TableColumn<MemberModel, String> surCol;
 
     @FXML
-    private Button addBut;
+    private TextField countryField;
 
-    @FXML
-    private Button remBut;
-
-    @FXML
-    private Button updBut;
-
-    @FXML
-    private Button memBut;
-
-    @FXML
-    private Button clearBut;
     private NotificationHandler nH;
     private String message;
-    private String n;
-    private String s;
+    private String n, s, st, h, e, p, c, d, cou;
+    private int t = 0;
+    private DatabaseConnectionHandler db;
+    private Members members;
 
     public String getN() {
         n = nameField.getText();
         return n;
+    }
+
+    public String getCou() {
+        cou = countryField.getText();
+        return cou;
     }
 
     public String getS() {
@@ -136,29 +136,19 @@ public class ManagePresenter implements Initializable {
         return d;
     }
 
-    private String st;
-    private String h;
-    private int t = 0;
-    private String e;
-    private String p;
-    private String c;
-    private String d;
-    private MemberModel mm;
-
 
     @FXML
-    void addMember(ActionEvent event) {
-
+    void addMember(ActionEvent event) throws SQLException {
+        db.getConn();
         System.out.println("add");
 
-        message = "Member added succesfully";
-
         //isFieldEmpty();
-        new MemberModel(n, s, st, h, t, e, p, c, d);
+        //mm = new MemberModel(n, s, st, h, t, e, p, c, d, cou);
 
 
+        message = "Member added succesfully";
         nH.added(message);
-
+        db.getConn().close();
 
     }
 
@@ -168,10 +158,10 @@ public class ManagePresenter implements Initializable {
                 || p.isEmpty() || c.isEmpty() || d.isEmpty()) {
 
             System.out.println("Some field is empty");
+            return false;
         }
 
-
-        return false;
+        return true;
     }
 
     @FXML
@@ -224,15 +214,46 @@ public class ManagePresenter implements Initializable {
     @PostConstruct
     public void inti() {
         nH = new NotificationHandler();
+        try {
+            db = new DatabaseConnectionHandler();
+
+
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
 
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(MobileApplication.getInstance().getView().getName());
-        manageView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
+    private void showMembersInTable() {
 
+        custTable.setItems(members.getMemberData());
+
+        idCol.setCellValueFactory(
+                new PropertyValueFactory<>("customerId"));
+
+        namCol.setCellValueFactory(
+                new PropertyValueFactory<>("name"));
+        surCol.setCellValueFactory(
+                new PropertyValueFactory<>("surname"));
+
+
+    }
+
+
+    @Override
+
+    public void initialize(URL location, ResourceBundle resources) {
+
+        manageView.setShowTransitionFactory(BounceInUpTransition::new);
+
+        try {
+            members = new Members();
+            members.retrieveData();
+            showMembersInTable();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
 
     }
 }

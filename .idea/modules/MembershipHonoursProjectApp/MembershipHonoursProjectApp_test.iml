@@ -9,7 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="MembershipHonoursProjectApp_main" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -28,8 +27,10 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="MembershipHonoursProjectApp_main" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.196" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-glisten:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-display:3.6.0" level="project" />
