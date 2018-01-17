@@ -1,6 +1,5 @@
 package com.membershipApp;
 
-
 import com.gluonhq.charm.down.Platform;
 import com.gluonhq.charm.down.Services;
 import com.gluonhq.charm.down.plugins.LifecycleService;
@@ -120,24 +119,14 @@ public class MembershipAppMain extends MobileApplication {
 
         scene.getStylesheets().add(MembershipAppMain.class.getResource("style.css").toExternalForm());
         ((Stage) scene.getWindow()).getIcons().add(new Image(MembershipAppMain.class.getResourceAsStream("/icon.png")));
-
         //close request
         scene.getWindow().setOnCloseRequest((WindowEvent we) -> {
             Services.get(LifecycleService.class).ifPresent(service -> {
                 service.shutdown();
                 System.exit(0);
-
             });
-
-
         });
-
-
         //scenicView to delete at final app
         //ScenicView.show(scene);
-
-
     }
-
-
 }
