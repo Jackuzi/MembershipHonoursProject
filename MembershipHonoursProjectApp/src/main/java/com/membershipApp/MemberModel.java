@@ -1,16 +1,23 @@
 package com.membershipApp;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class MemberModel {
-  private StringProperty name;
 
-  public StringProperty nameProperty() {
+
+  public SimpleStringProperty nameProperty() {
     return name;
   }
 
-  public StringProperty surnameProperty() {
+  public SimpleStringProperty surnameProperty() {
     return surname;
+  }
+
+  public SimpleStringProperty countryProperty() {
+    return country;
   }
 
   public SimpleStringProperty streetProperty() {
@@ -41,17 +48,13 @@ public class MemberModel {
     return dob;
   }
 
-  public SimpleStringProperty countryProperty() {
-    return country;
-  }
-
-
   public IntegerProperty customerIdProperty() {
     return customerId;
   }
 
+  private SimpleStringProperty name;
   private IntegerProperty customerId;
-  private StringProperty surname;
+  private SimpleStringProperty surname;
   private SimpleStringProperty street;
   private SimpleStringProperty house;
   private SimpleIntegerProperty tel;
@@ -64,6 +67,7 @@ public class MemberModel {
   public String getSurname() {
     return surname.get();
   }
+
 
   public int getCustomerId() {
     return customerId.get();
@@ -89,6 +93,8 @@ public class MemberModel {
     return postcode.get();
   }
 
+  public String getName() { return name.get();}
+
   public String getCity() {
     return city.get();
   }
@@ -97,13 +103,10 @@ public class MemberModel {
     return dob.get();
   }
 
-  public StringProperty getName() {
-    return name;
+  public String getCountry() {
+    return country.get();
   }
 
-  public StringProperty getCountry() {
-    return country;
-  }
 
   public MemberModel(int id, String name, String surname, String street, String house,
                      int tel, String email, String postcode, String city, Object dob, String country) {
@@ -116,18 +119,17 @@ public class MemberModel {
     this.email = new SimpleStringProperty(email);
     this.postcode = new SimpleStringProperty(postcode);
     this.city = new SimpleStringProperty(city);
-    this.dob = new SimpleObjectProperty(dob);
+    this.dob = new SimpleObjectProperty<>(dob);
     this.country = new SimpleStringProperty(country);
   }
 
-/*    @Override
-    public String toString() {
+  @Override
+  public String toString() {
+    return "member " + this.getCustomerId() + " " + this.getName() + " " + this.getSurname() + " " + this.getStreet() + " " + this.getHouse() + " " + this.getTel() + " " +
+            this.getEmail() + " " + this.getPostcode() + " " + this.getCity() + " " + this.getDob() + " " + this.getCountry();
+  }
 
-        return "member" + this.getName() + this.getSurname() + this.getStreet() + this.getHouse() + this.getTel() +
-                this.getEmail() + this.getPostcode() + this.getCity() + this.getDob() + this.getCountry();
-    }
 
-*/
 }
 
 

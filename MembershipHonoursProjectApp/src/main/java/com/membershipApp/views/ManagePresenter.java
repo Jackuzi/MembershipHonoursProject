@@ -9,6 +9,7 @@ import com.membershipApp.DatabaseConnectionHandler;
 import com.membershipApp.MemberModel;
 import com.membershipApp.Members;
 import com.membershipApp.NotificationHandler;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -66,6 +68,12 @@ public class ManagePresenter implements Initializable {
   @FXML
   private TextField countryField;
 
+  public Task getTask() {
+    return task;
+  }
+
+  private Task task;
+
   private NotificationHandler nH;
   private String message;
   private String n, s, st, h, e, p, c, d, cou;
@@ -73,7 +81,7 @@ public class ManagePresenter implements Initializable {
   private DatabaseConnectionHandler db;
   private Members members;
   private final ArrayList<TextField> textFields = new ArrayList<>();
-  private DatePicker datePicker;
+  private DatePicker datePicker = new DatePicker();
   private int id;
 
   public String getN() {
@@ -128,46 +136,78 @@ public class ManagePresenter implements Initializable {
 
   private int getMaxId() throws SQLException {
     Statement st2 = db.getConn().createStatement();
-    ResultSet rs = st2.executeQuery("SELECT CUSTOMERID FROM CUSTOMER ");
-    int id2 = 0;
-    if (rs.next()) {
-      id2 = rs.getInt("customerId");
+    int id2;
+    try (ResultSet rs = st2.executeQuery("SELECT CUSTOMERID FROM CUSTOMER ")) {
+      id2 = 0;
+      if (rs.next()) {
+        id2 = rs.getInt("customerId");
+      }
     }
     System.out.println(id2);
-    id = id2;
+    id = id2 + 1;
     return id;
   }
 
   @FXML
   void addMember(ActionEvent event) throws SQLException {
+    db.dbServerStart();
     id = getMaxId();
     System.out.println("add");
-    if (isFieldEmpty()) {
-      db.getConn();
-      //members.getMemberData().add(new MemberModel(id, n, s, st, h, Integer.parseInt(t), e, p, c, d, cou));
+    if ((isFieldEmpty()) && (!isDuplicate(getN(), getS(), getE())) && (isEmailValid())) {
+      //db.getConn();
+      members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Integer.parseInt(getT()), getE(), getP(), getC(), getD(), getCou()));
       message = "Member added succesfully";
-      db.getConn().close();
-    } else if (!isFieldEmpty()) {
+    } else if ((!isFieldEmpty())) {
       message = "Please correct empty fields";
+    } else if (!isEmailValid()) {
+      message = " Email validation failed";
+    } else if (isDuplicate(getN(), getS(), getE())) {
+      message = "User with same name and surname or email already exists in the database";
 
     }
     nH.added(message);
+    System.out.println("Server stopped");
+    db.getServer().stop();
+  }
+
+  private boolean isEmailValid() {
+    String email = getE();
+    boolean valid = EmailValidator.getInstance().isValid(email);
+    System.out.println(valid);
+    return valid;
   }
 
   private boolean isFieldEmpty() {
+    System.out.println("hello");
     for (TextField textfield : textFields) {
       if ((textfield.getText().trim().isEmpty()) || (getD().equals("Date of Birth"))) {
-        System.out.println("some field is empty");
+        System.out.println("empty field number");
         return false;
       }
     }
     return true;  // every field was empty (or else we'd have stopped earlier)
   }
 
+  private boolean isDuplicate(String name, String surname, String email) {
+    for (MemberModel members : members.getMemberData()) {
+      if (name.equals(members.getName()) && surname.equals(members.getSurname()) || email.equals(members.getEmail())) {
+        System.out.println("duplicate");
+        return true;
+      }
+    }
+    return false;
+  }
 
   @FXML
   void clearFields(ActionEvent event) {
     System.out.println("clear");
+    for (MemberModel member : members.getMemberData()) {
+      System.out.println(member.toString());
+    }
+    for (TextField textfield : textFields) {
+      textfield.setText("");
+      dobLabel.setText("Date of Birth");
+    }
   }
 
   @FXML
@@ -192,11 +232,12 @@ public class ManagePresenter implements Initializable {
   }
 
   @FXML
-  void chooseDate() {
-    datePicker.showAndWait().ifPresent(date -> dobLabel.setText(String.valueOf(date)));
+  public void chooseDate() {
+    datePicker.showAndWait().ifPresent(date -> dobLabel.setText(date.toString()));
 
 
   }
+
 
   /*  private void retrieveDbImage () throws SQLException {
         ResultSet rs = st.executeQuery(q);
@@ -224,14 +265,10 @@ public class ManagePresenter implements Initializable {
   @PostConstruct
   public void inti() {
     nH = new NotificationHandler();
-    datePicker = new DatePicker();
-    try {
-      db = new DatabaseConnectionHandler();
+    db = new DatabaseConnectionHandler();
 
-    } catch (SQLException e1) {
-      e1.printStackTrace();
-    }
   }
+
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {

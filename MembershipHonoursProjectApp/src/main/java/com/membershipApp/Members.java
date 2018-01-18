@@ -18,11 +18,12 @@ public class Members {
   private ObservableList<MemberModel> memberData = FXCollections.observableArrayList();
 
   public Members() throws SQLException {
+    db = new DatabaseConnectionHandler();
   }
 
   public void retrieveData() throws SQLException {
-    db = new DatabaseConnectionHandler();
     try {
+      db.dbServerStart();
       db.getConn();
       Statement st = db.getConn().createStatement();
       ResultSet rs = st.executeQuery("SELECT CUSTOMER.*, ADDRESS.* " +
@@ -45,13 +46,16 @@ public class Members {
         String couDb = rs.getString("country");
         String hDb = rs.getString("houseNumber");
         memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb));
-        System.out.println(idDb + nDb + sDb + stDb + hDb + tDb + eDb + pDb + cDb + dobDb + couDb);
-        //System.out.println(memberData.toString());
+        //System.out.println(idDb + nDb + sDb + stDb + hDb + tDb + eDb + pDb + cDb + dobDb + couDb);
+        System.out.println(memberData.toString());
       }
     } catch (Exception e1) {
       e1.printStackTrace();
     } finally {
-      db.getConn().close();
+      System.out.println("Server stopped");
+      db.getServer().stop();
     }
+
   }
 }
+

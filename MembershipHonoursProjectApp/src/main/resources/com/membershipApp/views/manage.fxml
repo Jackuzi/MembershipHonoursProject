@@ -54,7 +54,7 @@
                                 </TextField>
                                 <Label fx:id="dobLabel" contentDisplay="RIGHT" onMouseClicked="#chooseDate" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" text="Date of Birth">
                                     <graphic>
-                                        <Icon content="DATE_RANGE" onMouseClicked="#chooseDate" />
+                                        <Icon content="DATE_RANGE" />
                                     </graphic>
                                 </Label>
                                 <TextField fx:id="streetField" promptText="Street" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css">
@@ -66,7 +66,7 @@
                                     </effect>
                                 </TextField>
                                 <TextField fx:id="postField" promptText="Postcode" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
-                        <TextField fx:id="countryField" promptText="country" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
+                                <TextField fx:id="countryField" promptText="country" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
                                 <TextField fx:id="emailField" promptText="Email" style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;" stylesheets="@primary.css" />
                             </children>
                             <padding>
@@ -121,11 +121,11 @@
     <left>
         <HBox BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="custTable" HBox.hgrow="ALWAYS">
+                <TableView fx:id="custTable" prefHeight="390.0" prefWidth="226.0" HBox.hgrow="ALWAYS">
                     <columns>
-                  <TableColumn fx:id="idCol" prefWidth="75.0" text="Id" />
-                        <TableColumn fx:id="namCol" editable="false" maxWidth="109.99999713897705" minWidth="-1.0" prefWidth="108.6666841506958" text="Name" />
-                        <TableColumn fx:id="surCol" editable="false" maxWidth="247.333353360494" minWidth="-1.0" prefWidth="127.33332061767578" text="Surname" />
+                        <TableColumn fx:id="idCol" prefWidth="53.333374977111816" text="Id" />
+                        <TableColumn fx:id="namCol" editable="false" maxWidth="109.99999713897705" minWidth="-1.0" prefWidth="83.33337783813477" text="Name" />
+                        <TableColumn fx:id="surCol" editable="false" maxWidth="247.333353360494" minWidth="-1.0" prefWidth="100.66668701171875" text="Surname" />
                     </columns>
                     <padding>
                         <Insets bottom="10.0" top="10.0" />
