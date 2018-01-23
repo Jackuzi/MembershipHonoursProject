@@ -1,18 +1,17 @@
 package com.membershipApp.views;
 
+import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.DatePicker;
 import com.gluonhq.charm.glisten.control.TextField;
 import com.gluonhq.charm.glisten.mvc.View;
-import com.membershipApp.DatabaseConnectionHandler;
-import com.membershipApp.MemberModel;
-import com.membershipApp.Members;
-import com.membershipApp.NotificationHandler;
+import com.membershipApp.*;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.CacheHint;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,7 +26,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class ManagePresenter implements Initializable {
+
+public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   @FXML
   private ResourceBundle resources;
@@ -67,12 +67,6 @@ public class ManagePresenter implements Initializable {
   private TableColumn<MemberModel, String> surCol;
   @FXML
   private TextField countryField;
-
-  public Task getTask() {
-    return task;
-  }
-
-  private Task task;
 
   private NotificationHandler nH;
   private String message;
@@ -163,7 +157,6 @@ public class ManagePresenter implements Initializable {
       message = " Email validation failed";
     } else if (isDuplicate(getN(), getS(), getE())) {
       message = "User with same name and surname or email already exists in the database";
-
     }
     nH.added(message);
     System.out.println("Server stopped");
@@ -234,10 +227,7 @@ public class ManagePresenter implements Initializable {
   @FXML
   public void chooseDate() {
     datePicker.showAndWait().ifPresent(date -> dobLabel.setText(date.toString()));
-
-
   }
-
 
   /*  private void retrieveDbImage () throws SQLException {
         ResultSet rs = st.executeQuery(q);
@@ -263,16 +253,27 @@ public class ManagePresenter implements Initializable {
   }
 
   @PostConstruct
-  public void inti() {
+  public void init() {
     nH = new NotificationHandler();
     db = new DatabaseConnectionHandler();
+
 
   }
 
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    manageView.setShowTransitionFactory(BounceInUpTransition::new);
+  public void initialize() {
+    Task t = new Task() {
+      @Override
+      protected Object call() throws Exception {
+        manageView.setCache(true);
+        manageView.setCacheShape(true);
+        manageView.setCacheHint(CacheHint.SPEED);
+        manageView.setShowTransitionFactory(node -> new BounceInUpTransition(node));
+        return null;
+      }
+    };
+    t.run();
+    // t.cancel();
     textFields.add(surField);
     textFields.add(nameField);
     textFields.add(streetField);
@@ -282,14 +283,28 @@ public class ManagePresenter implements Initializable {
     textFields.add(cityField);
     textFields.add(countryField);
     textFields.add(telField);
-    try {
-      members = new Members();
-      members.retrieveData();
-      showMembersInTable();
-    } catch (SQLException e1) {
-      e1.printStackTrace();
-    }
+    telField.textProperty().getValueSafe();
+    members = new Members();
+    members.retrieveData();
+    showMembersInTable();
+    addFieldFilter();
 
   }
 
+  private void addFieldFilter() {
+    //telField.setErrorValidator(original -> new String(""));
+    telField.textProperty().addListener((observable, oldValue, newValue) -> {
+      if (!newValue.matches("[0-9]*")) {
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            telField.textProperty().set(oldValue);
+            //telField.requestFocus();
+            //telField.getErrorValidator();
+          }
+        });
+      }
+      System.out.println(oldValue + " " + newValue);
+    });
+  }
 }

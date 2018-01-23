@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 
 import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Members {
@@ -17,11 +16,11 @@ public class Members {
 
   private ObservableList<MemberModel> memberData = FXCollections.observableArrayList();
 
-  public Members() throws SQLException {
+  public Members() {
     db = new DatabaseConnectionHandler();
   }
 
-  public void retrieveData() throws SQLException {
+  public void retrieveData() {
     try {
       db.dbServerStart();
       db.getConn();

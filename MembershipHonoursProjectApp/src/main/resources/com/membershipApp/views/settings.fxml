@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.TextField?>
-<?import com.gluonhq.charm.glisten.layout.Layer?>
+<?import com.gluonhq.charm.glisten.control.Icon?>
 <?import com.gluonhq.charm.glisten.mvc.View?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<View fx:id="settingsView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.SettingsPresenter">
+<View fx:id="settingsView" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.SettingsPresenter">
     <center>
-        <Layer fx:id="settingsLayer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-            <children>
-                <VBox>
-                    <children>
-                        <TextField text="this is Settings layer" />
-                    </children>
-                </VBox>
-            </children>
-        </Layer>
+      <VBox>
+         <children>
+              <TableView fx:id="employeeTable" stylesheets="@primary.css">
+                  <columns>
+                      <TableColumn fx:id="idColumn" prefWidth="75.0" text="Id" />
+                      <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
+                      <TableColumn fx:id="surnameColumn" prefWidth="75.0" text="Surname" />
+                      <TableColumn fx:id="emailColumn" prefWidth="75.0" text="Email" />
+                      <TableColumn fx:id="passColumn" prefWidth="75.0" text="Password" />
+                  </columns>
+              </TableView>
+              <HBox alignment="CENTER" spacing="10.0">
+                  <children>
+                      <Button fx:id="showEmpBut" contentDisplay="TOP" mnemonicParsing="false" onAction="#reloadTable" text="Show " textAlignment="CENTER">
+                     <graphic>
+                        <Icon content="POLL" />
+                     </graphic>
+                  </Button>
+                      <Button fx:id="updBut" contentDisplay="TOP" mnemonicParsing="false" onAction="#updateRecord" text="Update" textAlignment="CENTER">
+                     <graphic>
+                        <Icon content="UPDATE" />
+                     </graphic>
+                  </Button>
+                      <Button fx:id="delBut" contentDisplay="TOP" mnemonicParsing="false" onAction="#deleteRecord" text="Delete" textAlignment="CENTER">
+                     <graphic>
+                        <Icon content="DELETE_FOREVER" />
+                     </graphic>
+                  </Button>
+                  <Button fx:id="cancelBut" contentDisplay="TOP" mnemonicParsing="false" onAction="#reloadTable" text="Cancel">
+                     <graphic>
+                        <Icon content="CANCEL" />
+                     </graphic>
+                  </Button>
+                  </children>
+              </HBox>
+         </children>
+      </VBox>
     </center>
 </View>

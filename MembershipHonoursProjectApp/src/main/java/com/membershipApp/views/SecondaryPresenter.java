@@ -1,5 +1,6 @@
 package com.membershipApp.views;
 
+import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInRightTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
@@ -9,30 +10,26 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.MembershipAppMain;
 import javafx.fxml.FXML;
 
-public class SecondaryPresenter {
+public class SecondaryPresenter extends GluonPresenter<MembershipAppMain> {
 
-    @FXML
-    private View secondary;
+  @FXML
+  private View secondary;
 
-    public void initialize() {
+  public void initialize() {
+    secondary.setShowTransitionFactory(BounceInRightTransition::new);
+    secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text,
+            e -> System.out.println("Info")).getLayer());
+    secondary.showingProperty().addListener((obs, oldValue, newValue) -> {
+      if (newValue) {
+        AppBar appBar = MobileApplication.getInstance().getAppBar();
+        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e ->
+                MobileApplication.getInstance().showLayer(MembershipAppMain.MENU_LAYER)));
+        appBar.setTitleText("Secondary");
+        appBar.getActionItems().add(MaterialDesignIcon.FAVORITE.button(e ->
+                System.out.println("Favorite")));
 
-        secondary.setShowTransitionFactory(BounceInRightTransition::new);
-
-        secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text,
-                e -> System.out.println("Info")).getLayer());
-
-        secondary.showingProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue) {
-                AppBar appBar = MobileApplication.getInstance().getAppBar();
-                appBar.setNavIcon(MaterialDesignIcon.MENU.button(e ->
-                        MobileApplication.getInstance().showLayer(MembershipAppMain.MENU_LAYER)));
-                appBar.setTitleText("Secondary");
-                appBar.getActionItems().add(MaterialDesignIcon.FAVORITE.button(e ->
-                        System.out.println("Favorite")));
-
-            }
-        });
-    }
+      }
+    });
+  }
 }
-
 //Kontroler dla widoku mobilnego.

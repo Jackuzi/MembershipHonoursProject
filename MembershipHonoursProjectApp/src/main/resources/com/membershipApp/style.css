@@ -15,3 +15,119 @@
 
 }
 
+.view {
+    -fx-background-color: linear-gradient(to bottom right, rgba(76, 76, 76, 1) 0%, rgba(89, 89, 89, 1) 17%,
+    rgba(102, 102, 102, 1) 25%,
+    rgba(102, 102, 102, 1) 28%, rgba(102, 102, 102, 1) 29%, rgba(28, 28, 28, 1) 100%);
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view:focused {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell {
+    -fx-text-fill: white;
+}
+
+.table-row-cell {
+    -fx-background-color: -fx-table-cell-border-color, #616161;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: -fx-table-cell-border-color, #424242;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #005797;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}
+
+.table-view > .virtual-flow > .scroll-bar:vertical,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track,
+.table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
+.table-view > .virtual-flow > .scroll-bar:horizontal,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
+.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view > .virtual-flow > .scroll-bar > .increment-button,
+.table-view > .virtual-flow > .scroll-bar > .decrement-button {
+    -fx-opacity: 0;
+}
+
+.table-view .filler {
+
+}
+
+.charm-text-field:focused .float {
+    -fx-text-fill: #f8ff00;
+
+}
+
+.charm-text-field:focused {
+    -fx-border-width: 4;
+    -fx-border-color: green;
+    -fx-border-radius: 4;
+    -fx-border-insets: -3;
+
+}
+
+.charm-text-field:hover {
+    -fx-border-width: 2;
+    -fx-border-color: green;
+    -fx-border-radius: 2;
+    -fx-border-insets: -1;
+
+}
+
+.button:hover {
+    -fx-text-fill: #ffbf25;
+    -fx-border-width: 1;
+    -fx-border-color: yellow;
+    -fx-border-radius: 0;
+    -fx-border-insets: -1;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.login {
+    -fx-text-fill: white;
+}
+
+#textfields {
+    -fx-text-fill: white;
+    -fx-background-color: grey;
+    -fx-background-radius: 5;
+
+}
+
+.borders {
+    -fx-border-color: gray;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-insets: 20;
+}

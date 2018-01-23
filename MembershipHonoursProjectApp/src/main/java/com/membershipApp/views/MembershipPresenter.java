@@ -1,19 +1,17 @@
 package com.membershipApp.views;
 
+import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.membershipApp.MembershipAppMain;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
+  @FXML
+  private View membershipView;
 
-public class MembershipPresenter implements Initializable {
-    @FXML
-    private View membershipView;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        membershipView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
-    }
+  public void initialize() {
+    membershipView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
+  }
 }

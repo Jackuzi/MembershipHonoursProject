@@ -19,6 +19,24 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="MembershipHonoursProjectApp_main" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/controlsfx-samples-9.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/scenicView.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" name="Gradle: commons-validator:commons-validator:1.6" level="project" />
@@ -30,8 +48,8 @@
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-lifecycle:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-statusbar:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-cloudlink-client:4.4.4" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-lifecycle-desktop:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:charm-down-plugin-storage:3.6.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-lifecycle-desktop:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: com.gluonhq:connect:1.4.3" level="project" />
     <orderEntry type="library" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-storage-desktop:3.6.0" level="project" />

@@ -23,55 +23,60 @@ import javafx.util.Duration;
 
 public class MembershipAppMain extends MobileApplication {
 
-  public static String PRIMARY_VIEW = HOME_VIEW; //Home View
+  public static String PRIMARY_VIEW = "Primary View";
   public static String SECONDARY_VIEW = "Secondary View";
   public static final String MENU_LAYER = "Side Menu";
   public static String REMINDER_VIEW = "Reminder View";
   public static String MANAGE_VIEW = "Manage View";
   public static String SETTINGS_VIEW = "Settings View";
   public static String MEMBERSHIP_VIEW = "Membership View";
+  public static String LOGIN_VIEW = HOME_VIEW;
   public static Scene scene;
+  public static SplashView login;
 
 
   @Override
   public void init() {
+    //showLoginScreen();
     //showSplashScreen();
-    //String u ="";
-    //String p = "";
-    //Pair a = new Pair(u,p);
-    //Pair c = new Pair (u,p);
-    //new LoginDialog(null,null).showAndWait().isPresent();
-    //ld.showAndWait();
-    if (Platform.isDesktop()) {
-      addViewFactory(PRIMARY_VIEW, () -> {
-        View view = (View) new PrimaryView().getView();
-        view.setTop(new BottomNavHandle().createBottomNavigation());
-        return view;
-      });
-    } else if (!Platform.isDesktop()) {
-      SECONDARY_VIEW = HOME_VIEW;
-      addViewFactory(SECONDARY_VIEW, () -> {
-        return (View) new SecondaryView().getView();
-      });
-    }
-    addLayerFactory(MENU_LAYER, () -> {
-      return new SidePopupView(new DrawerManager().getDrawer());
+    //Login View
+    addViewFactory(LOGIN_VIEW, () -> {
+      View view = (View) new LoginView().getView();
+      return view;
     });
+    //Primary View if Desktop mainly navigation only
+    //if (Platform.isDesktop()) {
+    addViewFactory(PRIMARY_VIEW, () -> {
+      PrimaryView pv = new PrimaryView();
+      View v = (View) pv.getView();
+      //Views navigation
+      //view.setTop(new BottomNavHandle().createBottomNavigation());
+      return v;
+    });
+    //if Mobile Secondary View
+    // } else if (!Platform.isDesktop()) {
+    //SECONDARY_VIEW = HOME_VIEW;
+    //addViewFactory(SECONDARY_VIEW, () -> (View) new SecondaryView().getView());
+    // }
+    //Menu layer
+    addLayerFactory(MENU_LAYER, () -> new SidePopupView(new DrawerManager().getDrawer()));
+    //Reminder View
     addViewFactory(REMINDER_VIEW, () -> {
       ReminderView wv = new ReminderView();
       View v = (View) wv.getView();
-      // MobileApplication.getInstance().showLayer(REMINDER_VIEW);
-      //new BounceInDownTransition(v).play();
       return v;
     });
+    //Manage View
     addViewFactory(MANAGE_VIEW, () -> {
       ManageView wv = new ManageView();
       return (View) wv.getView();
     });
+    //Settings View
     addViewFactory(SETTINGS_VIEW, () -> {
       SettingsView sv = new SettingsView();
       return (View) sv.getView();
     });
+    //Membership View
     addViewFactory(MEMBERSHIP_VIEW, () -> {
       MembershipView mv = new MembershipView();
       return (View) mv.getView();
@@ -80,9 +85,13 @@ public class MembershipAppMain extends MobileApplication {
 
   }
 
+  private void showLoginScreen() {
+  }
+
 
   // Will add loading on splashscreen , percentage or something
   private void showSplashScreen() {
+    //MobileApplication.getInstance().switchView(LOGIN_VIEW);
     addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
       ProgressIndicator pi = new ProgressIndicator();
       pi.setRadius(60);
@@ -105,7 +114,9 @@ public class MembershipAppMain extends MobileApplication {
 
   @Override
   public void postInit(Scene scene) {
+    //getLogin();
     if (Platform.isDesktop()) {
+      System.out.println(MobileApplication.getInstance().getView().getName());
       scene.getWindow().setHeight(800);
       scene.getWindow().setWidth(1280);
     }
@@ -118,10 +129,12 @@ public class MembershipAppMain extends MobileApplication {
     scene.getWindow().setOnCloseRequest((WindowEvent we) -> {
       System.out.println("closing");
       Services.get(LifecycleService.class).ifPresent(LifecycleService::shutdown);
-
-
     });
     //scenicView to delete at final app
     //ScenicView.show(scene);
   }
+
+  public void getLogin() {
+  }
+
 }

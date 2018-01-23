@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.mvc.View?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<View fx:id="loginView" stylesheets="@primary.css" xmlns="http://javafx.com/javafx/8.0.152"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.LoginPresenter">
+    <center>
+        <VBox alignment="CENTER" spacing="40.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fx:id="memImg" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <VBox.margin>
+                        <Insets bottom="40.0" top="10.0"/>
+                    </VBox.margin>
+                </ImageView>
+                <HBox alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" spacing="50.0">
+                            <children>
+                                <Label fx:id="userLabel" text="\%label.text">
+                                    <font>
+                                        <Font size="10.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets/>
+                                    </VBox.margin>
+                                </Label>
+                                <Label text="Password:">
+                                    <font>
+                                        <Font size="10.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets/>
+                                    </VBox.margin>
+                                </Label>
+                            </children>
+                            <padding>
+                                <Insets right="10.0"/>
+                            </padding>
+                            <HBox.margin>
+                                <Insets top="15.0"/>
+                            </HBox.margin>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="40.0">
+                            <children>
+                                <TextField fx:id="userField" alignment="CENTER" maxWidth="150.0" promptText="Username"
+                                           styleClass="login">
+                                    <effect>
+                                        <DropShadow/>
+                                    </effect>
+                                </TextField>
+                                <PasswordField fx:id="passField" alignment="CENTER" maxWidth="150.0"
+                                               promptText="Password" styleClass="login">
+                                    <effect>
+                                        <DropShadow/>
+                                    </effect>
+                                </PasswordField>
+                            </children>
+                        </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets left="40.0" right="40.0"/>
+                    </VBox.margin>
+                </HBox>
+                <HBox alignment="CENTER" spacing="40.0">
+                    <children>
+                        <Button fx:id="loginBut" mnemonicParsing="false" onAction="#loginAttempt" text="Login">
+                            <effect>
+                                <DropShadow/>
+                            </effect>
+                        </Button>
+                        <Button fx:id="cancelBut" mnemonicParsing="false" onAction="#exitApp" text="Exit">
+                            <effect>
+                                <DropShadow/>
+                            </effect>
+                        </Button>
+                    </children>
+                    <padding>
+                        <Insets bottom="50.0" left="40.0" top="20.0"/>
+                    </padding>
+                </HBox>
+            </children>
+            <padding>
+                <Insets top="40.0"/>
+            </padding>
+        </VBox>
+    </center>
+    <effect>
+        <DropShadow/>
+    </effect>
+</View>
