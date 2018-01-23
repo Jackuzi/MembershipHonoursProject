@@ -2,9 +2,12 @@ package com.membershipApp.views;
 
 import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
+import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.DatePicker;
 import com.gluonhq.charm.glisten.control.TextField;
+import com.gluonhq.charm.glisten.layout.Layer;
+import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.membershipApp.*;
 import javafx.application.Platform;
@@ -16,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.annotation.PostConstruct;
@@ -67,6 +71,10 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   private TableColumn<MemberModel, String> surCol;
   @FXML
   private TextField countryField;
+  @FXML
+  private Layer tableLayer;
+  @FXML
+  private StackPane tableStack;
 
   private NotificationHandler nH;
   private String message;
@@ -143,9 +151,14 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   }
 
   @FXML
-  void addMember(ActionEvent event) throws SQLException {
-    db.dbServerStart();
-    id = getMaxId();
+  void addMember(ActionEvent event) {
+    try {
+      db.dbServerStart();
+      id = getMaxId();
+
+    } catch (SQLException e1) {
+      e1.printStackTrace();
+    }
     System.out.println("add");
     if ((isFieldEmpty()) && (!isDuplicate(getN(), getS(), getE())) && (isEmailValid())) {
       //db.getConn();
@@ -153,14 +166,16 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
       message = "Member added succesfully";
     } else if ((!isFieldEmpty())) {
       message = "Please correct empty fields";
+      //consider using that, check performance first
+      MobileApplication.getInstance().showMessage("hello");
     } else if (!isEmailValid()) {
       message = " Email validation failed";
     } else if (isDuplicate(getN(), getS(), getE())) {
       message = "User with same name and surname or email already exists in the database";
     }
-    nH.added(message);
+    //nH.added(message);
     System.out.println("Server stopped");
-    db.getServer().stop();
+    // db.getServer().stop();
   }
 
   private boolean isEmailValid() {
@@ -288,7 +303,21 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     members.retrieveData();
     showMembersInTable();
     addFieldFilter();
+    //add table layer
+    //new SidePopupView(tableLayer).hide();
+    // MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(tableLayer));
+    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(tableStack));
+    MobileApplication.getInstance().addLayerFactory("employeeTable", () -> {
+      SidePopupView sidePopupView = new SidePopupView(tableStack);
+      return sidePopupView;
+    });
+  }
 
+
+  @FXML
+  public void showHideTableLayer() {
+    //MobileApplication.getInstance().showLayer("Menu");
+    MobileApplication.getInstance().showMessage("hello");
   }
 
   private void addFieldFilter() {

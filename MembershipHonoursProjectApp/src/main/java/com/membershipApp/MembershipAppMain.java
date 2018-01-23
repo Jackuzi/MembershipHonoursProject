@@ -115,13 +115,14 @@ public class MembershipAppMain extends MobileApplication {
   @Override
   public void postInit(Scene scene) {
     //getLogin();
+    MobileApplication.getInstance().getAppBar().setVisible(false);
     if (Platform.isDesktop()) {
       System.out.println(MobileApplication.getInstance().getView().getName());
       scene.getWindow().setHeight(800);
       scene.getWindow().setWidth(1280);
     }
     this.scene = scene;
-    Swatch.BLUE.assignTo(scene);
+    Swatch.TEAL.assignTo(scene);
     Theme.DARK.assignTo(scene);
     scene.getStylesheets().add(MembershipAppMain.class.getResource("style.css").toExternalForm());
     ((Stage) scene.getWindow()).getIcons().add(new Image(MembershipAppMain.class.getResourceAsStream("/icon.png")));

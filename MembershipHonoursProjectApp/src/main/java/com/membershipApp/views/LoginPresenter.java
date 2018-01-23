@@ -51,21 +51,18 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
 
   @FXML
   void loginAttempt(ActionEvent event) {
-    //if succeed
-    //MembershipAppMain.login.hideSplashView();
     //set window size
+    //if succeeded
     if (Platform.isDesktop()) {
       System.out.println(MobileApplication.getInstance().getView().getName());
       MembershipAppMain.scene.getWindow().setHeight(800);
       MembershipAppMain.scene.getWindow().setWidth(1280);
       MembershipAppMain.scene.getWindow().centerOnScreen();
       MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
-      // MembershipAppMain.PRIMARY_VIEW = MembershipAppMain.HOME_VIEW;
-      MobileApplication.getInstance().getView().setTop(new BottomNavHandle().createBottomNavigation());
-      // memImg.setImage(img);
+      MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
+      //if not succeded
     } else {
       MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
-      // MembershipAppMain.PRIMARY_VIEW = MembershipAppMain.HOME_VIEW;
       MobileApplication.getInstance().getView().setTop(new BottomNavHandle().createBottomNavigation());
 
     }

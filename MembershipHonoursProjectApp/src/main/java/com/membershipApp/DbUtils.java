@@ -1,6 +1,4 @@
-package com.membershipApp.views;
-
-import com.membershipApp.MembershipAppMain;
+package com.membershipApp;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

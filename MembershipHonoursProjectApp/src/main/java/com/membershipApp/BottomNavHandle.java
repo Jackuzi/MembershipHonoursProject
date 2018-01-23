@@ -5,6 +5,8 @@ import com.gluonhq.charm.glisten.application.ViewStackPolicy;
 import com.gluonhq.charm.glisten.control.BottomNavigation;
 import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import com.membershipApp.views.ManagePresenter;
+import javafx.scene.control.Button;
 
 public class BottomNavHandle {
   private BottomNavigationButton btn0;
@@ -12,6 +14,7 @@ public class BottomNavHandle {
   private BottomNavigationButton btn3;
   private BottomNavigationButton btn4;
   private BottomNavigationButton btn2;
+  private ManagePresenter mp = new ManagePresenter();
 
   public BottomNavHandle() {
     this.btn0 = new BottomNavigationButton("Home", MaterialDesignIcon.HOME.graphic());
@@ -34,33 +37,41 @@ public class BottomNavHandle {
       //MobileApplication.getInstance().getView().setTop(bottomNavigation);
       MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW, ViewStackPolicy.SKIP);
       btn0.setSelected(true);
-      MobileApplication.getInstance().getAppBar().setVisible(false);
-
-
+      Button logoutButton = new Button();
+      logoutButton.setText("Log out");
+      MobileApplication.getInstance().getAppBar().getActionItems().add(logoutButton);
+      // MobileApplication.getInstance().getAppBar().setVisible(false);
     });
     //Manage View
     btn1.setOnAction((event) -> {
       // Button was clicked, do something...
       MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setTop(bottomNavigation);
+      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
       btn1.setSelected(true);
-      MobileApplication.getInstance().getAppBar().setVisible(false);
-
+      // MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button());
+      MobileApplication.getInstance().getAppBar().setTitleText("Tap to show customers");
+      MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
+        MobileApplication.getInstance().showLayer("employeeTable");
+        //System.out.println("hello");
+        //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
+        //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
+      }));
+      //Membership View
     });
-    //Membership View
     btn2.setOnAction((event) -> {
       // Button was clicked, do something...
       MobileApplication.getInstance().switchView(MembershipAppMain.MEMBERSHIP_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setTop(bottomNavigation);
+      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
       btn2.setSelected(true);
       MobileApplication.getInstance().getAppBar().setVisible(false);
+
 
     });
     //Reminder View
     btn3.setOnAction((event) -> {
       // Button was clicked, do something...
       MobileApplication.getInstance().switchView(MembershipAppMain.REMINDER_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setTop(bottomNavigation);
+      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
       btn3.setSelected(true);
       MobileApplication.getInstance().getAppBar().setVisible(false);
 
@@ -69,7 +80,7 @@ public class BottomNavHandle {
     btn4.setOnAction((event) -> {
       // Button was clicked, do something...
       MobileApplication.getInstance().switchView(MembershipAppMain.SETTINGS_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setTop(bottomNavigation);
+      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
       btn4.setSelected(true);
       MobileApplication.getInstance().getAppBar().setVisible(false);
 

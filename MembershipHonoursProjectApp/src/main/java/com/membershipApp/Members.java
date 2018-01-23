@@ -24,10 +24,12 @@ public class Members {
     try {
       db.dbServerStart();
       db.getConn();
+      System.out.println(db.getConn().isClosed());
+      //System.out.println(db.getConn().getSchema());
       Statement st = db.getConn().createStatement();
-      ResultSet rs = st.executeQuery("SELECT CUSTOMER.*, ADDRESS.* " +
-              "FROM MEMBERSHIPDATABASE.PUBLIC.CUSTOMER , " +
-              "MEMBERSHIPDATABASE.PUBLIC.ADDRESS " +
+      ResultSet rs = st.executeQuery("SELECT MEMBERSHIPDATABASE.PUBLIC.CUSTOMER.*, MEMBERSHIPDATABASE.PUBLIC.ADDRESS.* " +
+              "FROM CUSTOMER , " +
+              "ADDRESS " +
               "WHERE" +
               " CUSTOMER.ADDRESSID = ADDRESS.ADDRESSID");
       while (rs.next()) {
@@ -52,7 +54,7 @@ public class Members {
       e1.printStackTrace();
     } finally {
       System.out.println("Server stopped");
-      db.getServer().stop();
+      //db.getServer().stop();
     }
 
   }
