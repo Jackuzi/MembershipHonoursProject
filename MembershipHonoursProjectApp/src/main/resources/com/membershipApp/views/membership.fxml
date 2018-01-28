@@ -3,54 +3,88 @@
 <?import com.gluonhq.charm.glisten.control.CharmListView?>
 <?import com.gluonhq.charm.glisten.layout.Layer?>
 <?import com.gluonhq.charm.glisten.mvc.View?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<View fx:id="membershipView" stylesheets="@primary.css" xmlns="http://javafx.com/javafx/8.0.152"
+<View fx:id="membershipView" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.152"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.MembershipPresenter">
-    <left>
-        <CharmListView BorderPane.alignment="CENTER"/>
-    </left>
     <bottom>
         <Layer style="-fx-border-color: gray; -fx-border-radius: 10;" BorderPane.alignment="CENTER">
             <children>
-                <Label text="How many memberships are ending this month" textFill="WHITE">
-                    <padding>
-                        <Insets bottom="10.0" top="10.0"/>
-                    </padding>
-                </Label>
+                <HBox>
+                    <children>
+                        <Label text="How many memberships are ending this month" textFill="WHITE">
+                            <padding>
+                                <Insets bottom="10.0" top="10.0"/>
+                            </padding>
+                        </Label>
+                    </children>
+                </HBox>
             </children>
         </Layer>
     </bottom>
-    <center>
-        <VBox alignment="CENTER">
+    <right>
+        <StackPane fx:id="buttonsStackPane">
             <children>
-                <HBox alignment="CENTER" spacing="40.0">
+                <VBox alignment="CENTER" spacing="20.0">
                     <children>
-                        <Label text="Date">
-                            <graphic>
-                                <Label text="Valid From:  " textFill="WHITE"/>
-                            </graphic>
-                        </Label>
-                        <Label text="Date">
-                            <graphic>
-                                <Label text="To:  " textFill="WHITE"/>
-                            </graphic>
-                        </Label>
+                        <Button mnemonicParsing="false" prefWidth="100.0" text="Renew">
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                            <VBox.margin>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefWidth="100.0">
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                            <VBox.margin>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefWidth="100.0">
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                            <VBox.margin>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </VBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" prefWidth="100.0" text="Cancel ">
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </padding>
+                            <VBox.margin>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+                            </VBox.margin>
+                        </Button>
                     </children>
-                    <padding>
-                        <Insets bottom="50.0" top="20.0"/>
-                    </padding>
-                </HBox>
-                <HBox alignment="BOTTOM_CENTER" spacing="20.0">
-                    <children>
-                        <Button mnemonicParsing="false" text="Renew"/>
-                        <Button mnemonicParsing="false"/>
-                        <Button mnemonicParsing="false"/>
-                        <Button mnemonicParsing="false" text="Cancel "/>
-                    </children>
-                </HBox>
+                </VBox>
             </children>
-        </VBox>
+        </StackPane>
+    </right>
+    <top>
+        <HBox alignment="CENTER" spacing="40.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Date">
+                    <graphic>
+                        <Label text="Valid From:  " textFill="WHITE"/>
+                    </graphic>
+                </Label>
+                <Label text="Date">
+                    <graphic>
+                        <Label text="To:  " textFill="WHITE"/>
+                    </graphic>
+                </Label>
+            </children>
+            <padding>
+                <Insets bottom="2.0" top="10.0"/>
+            </padding>
+        </HBox>
+    </top>
+    <center>
+        <CharmListView fx:id="membershipList" BorderPane.alignment="CENTER"/>
     </center>
 </View>

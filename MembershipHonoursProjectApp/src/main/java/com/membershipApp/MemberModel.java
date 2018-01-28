@@ -1,9 +1,8 @@
 package com.membershipApp;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
+
+import java.sql.Date;
 
 public class MemberModel {
 
@@ -63,6 +62,11 @@ public class MemberModel {
   private SimpleStringProperty city;
   private SimpleObjectProperty dob;
   private SimpleStringProperty country;
+  private SimpleObjectProperty dFrom;
+  private SimpleObjectProperty dTo;
+  private SimpleObjectProperty cancelDate;
+  private SimpleBooleanProperty isExpired;
+  private SimpleStringProperty password;
 
   public String getSurname() {
     return surname.get();
@@ -89,6 +93,98 @@ public class MemberModel {
     return email.get();
   }
 
+  public void setName(String name) {
+    this.name.set(name);
+  }
+
+  public void setCustomerId(int customerId) {
+    this.customerId.set(customerId);
+  }
+
+  public void setSurname(String surname) {
+    this.surname.set(surname);
+  }
+
+  public void setStreet(String street) {
+    this.street.set(street);
+  }
+
+  public void setHouse(String house) {
+    this.house.set(house);
+  }
+
+  public void setTel(int tel) {
+    this.tel.set(tel);
+  }
+
+  public void setEmail(String email) {
+    this.email.set(email);
+  }
+
+  public void setPostcode(String postcode) {
+    this.postcode.set(postcode);
+  }
+
+  public void setCity(String city) {
+    this.city.set(city);
+  }
+
+  public void setDob(Object dob) {
+    this.dob.set(dob);
+  }
+
+  public void setCountry(String country) {
+    this.country.set(country);
+  }
+
+  public Object getdFrom() {
+    return dFrom.get();
+  }
+
+  public SimpleObjectProperty dFromProperty() {
+    return dFrom;
+  }
+
+  public void setdFrom(Object dFrom) {
+    this.dFrom.set(dFrom);
+  }
+
+  public Object getdTo() {
+    return dTo.get();
+  }
+
+  public SimpleObjectProperty dToProperty() {
+    return dTo;
+  }
+
+  public void setdTo(Object dTo) {
+    this.dTo.set(dTo);
+  }
+
+  public Object getCancelDate() {
+    return cancelDate.get();
+  }
+
+  public SimpleObjectProperty cancelDateProperty() {
+    return cancelDate;
+  }
+
+  public void setCancelDate(Object cancelDate) {
+    this.cancelDate.set(cancelDate);
+  }
+
+  public boolean isIsExpired() {
+    return isExpired.get();
+  }
+
+  public SimpleBooleanProperty isExpiredProperty() {
+    return isExpired;
+  }
+
+  public void setIsExpired(boolean isExpired) {
+    this.isExpired.set(isExpired);
+  }
+
   public String getPostcode() {
     return postcode.get();
   }
@@ -109,7 +205,7 @@ public class MemberModel {
 
 
   public MemberModel(int id, String name, String surname, String street, String house,
-                     int tel, String email, String postcode, String city, Object dob, String country) {
+                     int tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, boolean isExpired, String password) {
     this.customerId = new SimpleIntegerProperty(id);
     this.name = new SimpleStringProperty(name);
     this.surname = new SimpleStringProperty(surname);
@@ -121,6 +217,13 @@ public class MemberModel {
     this.city = new SimpleStringProperty(city);
     this.dob = new SimpleObjectProperty<>(dob);
     this.country = new SimpleStringProperty(country);
+    //membership data
+    this.dFrom = new SimpleObjectProperty<>(dFrom);
+    this.dTo = new SimpleObjectProperty<>(dTo);
+    this.cancelDate = new SimpleObjectProperty<>(dCancel);
+    this.isExpired = new SimpleBooleanProperty(isExpired);
+    this.password = new SimpleStringProperty((password));
+
   }
 
   @Override
@@ -130,6 +233,17 @@ public class MemberModel {
   }
 
 
+  public String getPassword() {
+    return password.get();
+  }
+
+  public SimpleStringProperty passwordProperty() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password.set(password);
+  }
 }
 
 

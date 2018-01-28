@@ -16,6 +16,7 @@ public class DatabaseConnectionHandler {
   private Server server;
   private final static String DB_NAME = "MembershipDatabase.mv.db";
 
+
   public DatabaseConnectionHandler() {
   }
 
@@ -50,7 +51,11 @@ public class DatabaseConnectionHandler {
                 .orElseThrow(() -> new IOException("Error: PrivateStorage not available"));
         File db = new File(dir, DB_NAME);
         System.out.println(DB_NAME);
-        DbUtils.copyDatabase("/database/", dir.getAbsolutePath(), DB_NAME);
+        //if path not exists
+        File path = new File("/data/data/com.membershipApp/files/MembershipDatabase.mv.db");
+        if (!path.exists()) {
+          DbUtils.copyDatabase("/database/", dir.getAbsolutePath(), DB_NAME);
+        }
         String user = "admin";
         String pass = "Password";
         String dbUrl = "jdbc:h2:" + db.getAbsolutePath();

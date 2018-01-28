@@ -15,40 +15,69 @@ public class Members {
   }
 
   private ObservableList<MemberModel> memberData = FXCollections.observableArrayList();
+  //public ObservableList<ReminderModel> getMembershipData() {return membershipData;}
+  //private ObservableList<ReminderModel> membershipData = FXCollections.observableArrayList();
+
 
   public Members() {
     db = new DatabaseConnectionHandler();
+
   }
 
-  public void retrieveData() {
+  public void retrieveData(int choice) {
+    //choice 0 = customer
+    //choice 1 = employee
+    String sql = null;
+    if (choice == 0) {
+      sql = "SELECT * FROM INFORMATION_SCHEMA.CUSTOMERVIEW";
+    } else if (choice == 1) {
+      sql = "SELECT * FROM INFORMATION_SCHEMA.EMPLOYEEVIEW";
+    }
     try {
       db.dbServerStart();
       db.getConn();
-      System.out.println(db.getConn().isClosed());
+      //System.out.println(db.getConn().isClosed());
       //System.out.println(db.getConn().getSchema());
       Statement st = db.getConn().createStatement();
-      ResultSet rs = st.executeQuery("SELECT MEMBERSHIPDATABASE.PUBLIC.CUSTOMER.*, MEMBERSHIPDATABASE.PUBLIC.ADDRESS.* " +
-              "FROM CUSTOMER , " +
-              "ADDRESS " +
-              "WHERE" +
-              " CUSTOMER.ADDRESSID = ADDRESS.ADDRESSID");
+      ResultSet rs = st.executeQuery(sql);
       while (rs.next()) {
+        int idDb = 0;
+        Date dFrom = null;
+        Date dTo = null;
+        Date dCancel = null;
+        boolean isExpired = false;
+        String password = null;
         //Customer table
-        int idDb = rs.getInt("customerId");
-        String nDb = rs.getString("name");
-        String sDb = rs.getString("surname");
-        Date dobDb = rs.getDate("dob");
-        String eDb = rs.getString("email");
-        int tDb = rs.getInt("telephone");
+        if (choice == 0) {
+          idDb = rs.getInt("customerId");//customer
+          //membershipInfo
+          dFrom = rs.getDate("dateFrom");//customer
+          dTo = rs.getDate("dateTo");//customer
+          dCancel = rs.getDate("cancellationDate");//customer
+          isExpired = rs.getBoolean("expired");//customer
+        } else if (choice == 1) {
+          idDb = rs.getInt("employeeId");//employee
+          password = rs.getString("password");//employee
+        }
+        String nDb = rs.getString("name");//shared
+        String sDb = rs.getString("surname");//shared
+        Date dobDb = rs.getDate("dob");//shared
+        String eDb = rs.getString("email");//shared
+        int tDb = rs.getInt("telephone");//shared
         //Address table
-        String stDb = rs.getString("street");
-        String cDb = rs.getString("city");
-        String pDb = rs.getString("postcode");
-        String couDb = rs.getString("country");
-        String hDb = rs.getString("houseNumber");
-        memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb));
+        String hDb = rs.getString("houseNumber");//shared
+        String stDb = rs.getString("street");//shared
+        String cDb = rs.getString("city");//shared
+        String pDb = rs.getString("postcode");//shared
+        String couDb = rs.getString("country");//shared
+        if (choice == 0) {
+          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, null));
+        } else if (choice == 1) {
+          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, password));
+        }
+        //System.out.println(dFrom.toString() + dTo + dCancel + isExpired);
         //System.out.println(idDb + nDb + sDb + stDb + hDb + tDb + eDb + pDb + cDb + dobDb + couDb);
-        System.out.println(memberData.toString());
+        //System.out.println(memberData.toString());
       }
     } catch (Exception e1) {
       e1.printStackTrace();
@@ -57,6 +86,15 @@ public class Members {
       //db.getServer().stop();
     }
 
+  }
+
+  public void insertData() {
+  }
+
+  public void updateData() {
+  }
+
+  public void deleteData() {
   }
 }
 

@@ -8,7 +8,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_9">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../../MembershipHonoursProjectApp/out/production/classes" />
     <output-test url="file://$MODULE_DIR$/../../../MembershipHonoursProjectApp/out/test/classes" />
     <exclude-output />
@@ -29,11 +29,11 @@
       <excludeFolder url="file://$MODULE_DIR$/../../../MembershipHonoursProjectApp/build" />
       <excludeFolder url="file://$MODULE_DIR$/../../../MembershipHonoursProjectApp/out" />
     </content>
-    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-validator:commons-validator:1.6" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: egulias:EmailValidator4J:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.h2database:h2:1.4.196" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-down-plugin-cache:3.7.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />
@@ -43,12 +43,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-down-plugin-statusbar:3.7.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-cloudlink-client:4.4.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-down-plugin-storage:3.7.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:connect:1.4.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-digester:commons-digester:1.8.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Gradle: commons-collections:commons-collections:3.2.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-down-plugin-device:3.6.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-down-plugin-in-app-billing:3.6.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.gluonhq:charm-down-plugin-push-notifications:3.6.0" level="project" />
@@ -64,9 +60,9 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: commons-validator:commons-validator:1.6" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: egulias:EmailValidator4J:1.0.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.h2database:h2:1.4.196" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-cache:3.7.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />
@@ -76,12 +72,8 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-statusbar:3.7.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-cloudlink-client:4.4.4" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-storage:3.7.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:connect:1.4.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: commons-digester:commons-digester:1.8.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: commons-collections:commons-collections:3.2.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-device:3.6.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-in-app-billing:3.6.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm-down-plugin-push-notifications:3.6.0" level="project" />
@@ -97,9 +89,9 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: commons-validator:commons-validator:1.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: egulias:EmailValidator4J:1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.h2database:h2:1.4.196" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-cache:3.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-glisten-connect-view:4.4.1" level="project" />
@@ -109,18 +101,23 @@
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-statusbar:3.7.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-cloudlink-client:4.4.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-storage:3.7.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:connect:1.4.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: commons-beanutils:commons-beanutils:1.9.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: commons-digester:commons-digester:1.8.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: commons-collections:commons-collections:3.2.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.airhacks:afterburner.mfx:1.6.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-device:3.6.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-in-app-billing:3.6.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-push-notifications:3.6.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-plugin-runtime-args:3.6.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.gluonhq:charm-down-core:3.7.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.junit.platform:junit-platform-commons:1.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.apiguardian:apiguardian-api:1.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.opentest4j:opentest4j:1.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.glassfish:javax.json:1.0.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.junit.jupiter:junit-jupiter-engine:5.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.apache.logging.log4j:log4j-core:2.6.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.apache.logging.log4j:log4j-jul:2.6.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.junit.platform:junit-platform-engine:1.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.apache.logging.log4j:log4j-api:2.6.2" level="project" />
     <orderEntry type="module-library" scope="TEST">
       <library name="Gradle: controlsfx-8.40.14">
         <CLASSES>

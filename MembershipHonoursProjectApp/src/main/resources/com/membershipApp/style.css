@@ -4,6 +4,7 @@
 
 .btn {
     -fx-text-fill: white;
+
 }
 
 .btn:selected {
@@ -43,7 +44,7 @@
 }
 
 .table-view .table-cell {
-    -fx-text-fill: white;
+    -fx-text-fill: #ffffff;
 }
 
 .table-row-cell {
@@ -76,6 +77,11 @@
 .table-view > .virtual-flow > .scroll-bar > .increment-button,
 .table-view > .virtual-flow > .scroll-bar > .decrement-button {
     -fx-opacity: 0;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+    -fx-padding: 1em;
 }
 
 .table-view .filler {
@@ -130,4 +136,17 @@
     -fx-border-radius: 10;
     -fx-border-width: 2;
     -fx-border-insets: 20;
+}
+
+.borders2 {
+
+    -fx-border-color: transparent;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-insets: 20;
+}
+
+.charm-list-view .list-cell.header-cell > .list-tile > .text-box > .primary-text {
+    /* Headers primary text */
+    -fx-text-fill: green;
 }

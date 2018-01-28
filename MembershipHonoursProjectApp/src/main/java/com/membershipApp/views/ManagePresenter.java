@@ -6,21 +6,25 @@ import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.DatePicker;
 import com.gluonhq.charm.glisten.control.TextField;
-import com.gluonhq.charm.glisten.layout.Layer;
 import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
-import com.membershipApp.*;
+import com.membershipApp.DatabaseConnectionHandler;
+import com.membershipApp.MemberModel;
+import com.membershipApp.Members;
+import com.membershipApp.MembershipAppMain;
+import emailvalidator4j.EmailValidator;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.CacheHint;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import org.apache.commons.validator.routines.EmailValidator;
+import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
@@ -71,12 +75,16 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   private TableColumn<MemberModel, String> surCol;
   @FXML
   private TextField countryField;
-  @FXML
-  private Layer tableLayer;
+  //@FXML
+  //private Layer tableLayer;
   @FXML
   private StackPane tableStack;
+  @FXML
+  private StackPane buttonStack;
+  @FXML
+  private VBox vboxMenu;
 
-  private NotificationHandler nH;
+
   private String message;
   private String n, s, st, h, e, p, c, d, cou;
   private String t;
@@ -162,16 +170,19 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     System.out.println("add");
     if ((isFieldEmpty()) && (!isDuplicate(getN(), getS(), getE())) && (isEmailValid())) {
       //db.getConn();
-      members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Integer.parseInt(getT()), getE(), getP(), getC(), getD(), getCou()));
+      members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Integer.parseInt(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, false, null));
       message = "Member added succesfully";
+      MobileApplication.getInstance().showMessage(message);
     } else if ((!isFieldEmpty())) {
       message = "Please correct empty fields";
       //consider using that, check performance first
-      MobileApplication.getInstance().showMessage("hello");
+      MobileApplication.getInstance().showMessage(message);
     } else if (!isEmailValid()) {
       message = " Email validation failed";
+      MobileApplication.getInstance().showMessage(message);
     } else if (isDuplicate(getN(), getS(), getE())) {
       message = "User with same name and surname or email already exists in the database";
+      MobileApplication.getInstance().showMessage(message);
     }
     //nH.added(message);
     System.out.println("Server stopped");
@@ -180,8 +191,14 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   private boolean isEmailValid() {
     String email = getE();
-    boolean valid = EmailValidator.getInstance().isValid(email);
-    System.out.println(valid);
+    boolean valid = false;
+    EmailValidator validator = new EmailValidator();
+    if (validator.isValid(email)) {
+      System.out.println("Valid email");
+      valid = true;
+    } else {
+      System.out.println("Invalid email");
+    }
     return valid;
   }
 
@@ -219,16 +236,11 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   }
 
   @FXML
-  void membershipProcess(ActionEvent event) {
-    System.out.println("membership");
-  }
-
-  @FXML
   void removeMember(ActionEvent event) {
     System.out.println("remove");
     //if ok
     message = "Record removed";
-    nH.removed(message);
+    MobileApplication.getInstance().showMessage(message);
   }
 
   @FXML
@@ -236,8 +248,15 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     System.out.println("update");
     //if ok
     message = "updated successfully";
-    nH.updated(message);
+    MobileApplication.getInstance().showMessage(message);
   }
+
+  @FXML
+  void membershipProcess(ActionEvent event) {
+    System.out.println("membership Process");
+
+  }
+
 
   @FXML
   public void chooseDate() {
@@ -269,12 +288,11 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   @PostConstruct
   public void init() {
-    nH = new NotificationHandler();
+    //nH = new NotificationHandler();
     db = new DatabaseConnectionHandler();
-
-
+    // MobileApplication.getInstance().getView().setOnShowing(event -> updateAppBar(MobileApplication.getInstance().getAppBar()));
+    //System.out.println(MobileApplication.getInstance().getView().getName());
   }
-
 
   public void initialize() {
     Task t = new Task() {
@@ -282,13 +300,24 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
       protected Object call() throws Exception {
         manageView.setCache(true);
         manageView.setCacheShape(true);
-        manageView.setCacheHint(CacheHint.SPEED);
-        manageView.setShowTransitionFactory(node -> new BounceInUpTransition(node));
+        manageView.setCacheHint(CacheHint.QUALITY);
+        manageView.setShowTransitionFactory(BounceInUpTransition::new);
         return null;
       }
     };
     t.run();
-    // t.cancel();
+    textFieldsToArray();
+    members = new Members();
+    members.retrieveData(0);
+    showMembersInTable();
+    addFieldFilter();
+    if (!com.gluonhq.charm.down.Platform.isDesktop()) {
+      initLayers();
+    }
+  }
+
+
+  private void textFieldsToArray() {
     textFields.add(surField);
     textFields.add(nameField);
     textFields.add(streetField);
@@ -299,41 +328,58 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     textFields.add(countryField);
     textFields.add(telField);
     telField.textProperty().getValueSafe();
-    members = new Members();
-    members.retrieveData();
-    showMembersInTable();
-    addFieldFilter();
-    //add table layer
-    //new SidePopupView(tableLayer).hide();
-    // MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(tableLayer));
+  }
+
+
+  private void initLayers() {
     MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(tableStack));
-    MobileApplication.getInstance().addLayerFactory("employeeTable", () -> {
-      SidePopupView sidePopupView = new SidePopupView(tableStack);
+    MobileApplication.getInstance().addLayerFactory("employeeTable", () -> new SidePopupView(tableStack));
+    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(vboxMenu));
+    MobileApplication.getInstance().addLayerFactory("buttonLayer", () -> {
+      SidePopupView sidePopupView = new SidePopupView(vboxMenu);
+      sidePopupView.setSide(Side.RIGHT);
       return sidePopupView;
     });
   }
-
-
-  @FXML
-  public void showHideTableLayer() {
-    //MobileApplication.getInstance().showLayer("Menu");
-    MobileApplication.getInstance().showMessage("hello");
+ /* private void initiateViewLayers() {
+    //if (!com.gluonhq.charm.down.Platform.isDesktop()) {
+    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(tableLayer));
+    MobileApplication.getInstance().addLayerFactory("employeeTable", () -> {
+      SidePopupView sidePopupView = new SidePopupView(tableLayer);
+      return sidePopupView;
+    });
+    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(buttonStack));
+    MobileApplication.getInstance().addLayerFactory("buttonLayer", () -> {
+      SidePopupView sidePopupView = new SidePopupView(buttonStack);
+      sidePopupView.setSide(Side.RIGHT);
+      return sidePopupView;
+    });
+    Label controlsText = new Label();
+    Label customersText = new Label();
+    controlsText.setText("Controls");
+    customersText.setText("Customers");
+    MobileApplication.getInstance().getAppBar().setTitleText(customersText.getText());
+    MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
+      MobileApplication.getInstance().showLayer("employeeTable");
+      //System.out.println("hello");
+      //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
+      //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
+    }));
+    MobileApplication.getInstance().getAppBar().getActionItems().add(controlsText);
+    MobileApplication.getInstance().getAppBar().getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> {
+      MobileApplication.getInstance().showLayer(("buttonLayer"));
+    }));
+    // }
   }
+*/
 
   private void addFieldFilter() {
     //telField.setErrorValidator(original -> new String(""));
     telField.textProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.matches("[0-9]*")) {
-        Platform.runLater(new Runnable() {
-          @Override
-          public void run() {
-            telField.textProperty().set(oldValue);
-            //telField.requestFocus();
-            //telField.getErrorValidator();
-          }
-        });
+        Platform.runLater(() -> telField.textProperty().set(oldValue));
       }
-      System.out.println(oldValue + " " + newValue);
+      //System.out.println(oldValue + " " + newValue);
     });
   }
 }

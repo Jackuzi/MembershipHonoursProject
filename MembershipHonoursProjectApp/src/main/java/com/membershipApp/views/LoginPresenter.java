@@ -63,7 +63,7 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
       //if not succeded
     } else {
       MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
-      MobileApplication.getInstance().getView().setTop(new BottomNavHandle().createBottomNavigation());
+      MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
 
     }
   }

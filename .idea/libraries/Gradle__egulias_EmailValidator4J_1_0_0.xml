@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: egulias:EmailValidator4J:1.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/egulias/EmailValidator4J/1.0.0/8f90ee486e15f52052d4808f51f3aa4116e0f69e/EmailValidator4J-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/egulias/EmailValidator4J/1.0.0/46230bc5cf1c97b9e83a65bcb346737d1d5e5e91/EmailValidator4J-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

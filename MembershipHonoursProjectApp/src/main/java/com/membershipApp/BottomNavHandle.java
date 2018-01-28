@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.views.ManagePresenter;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class BottomNavHandle {
   private BottomNavigationButton btn0;
@@ -15,16 +16,18 @@ public class BottomNavHandle {
   private BottomNavigationButton btn4;
   private BottomNavigationButton btn2;
   private ManagePresenter mp = new ManagePresenter();
+  private Label controlsText = new Label();
+  private Label customersText = new Label();
+
 
   public BottomNavHandle() {
+    controlsText.setText("Controls");
+    customersText.setText("Customers");
     this.btn0 = new BottomNavigationButton("Home", MaterialDesignIcon.HOME.graphic());
     this.btn0.setSelected(true);
-    this.btn1 = new BottomNavigationButton("Manage Members", MaterialDesignIcon.PEOPLE
-            .graphic());
-    this.btn4 = new BottomNavigationButton("Settings", MaterialDesignIcon.SETTINGS.graphic
-            ());
-    this.btn3 = new BottomNavigationButton("Reminder", MaterialDesignIcon.ACCESS_TIME.graphic
-            ());
+    this.btn1 = new BottomNavigationButton("Manage", MaterialDesignIcon.PEOPLE.graphic());
+    this.btn4 = new BottomNavigationButton("Settings", MaterialDesignIcon.SETTINGS.graphic());
+    this.btn3 = new BottomNavigationButton("Reminder", MaterialDesignIcon.ACCESS_TIME.graphic());
     this.btn2 = new BottomNavigationButton("Membership", MaterialDesignIcon.CARD_MEMBERSHIP.graphic());
   }
 
@@ -48,14 +51,24 @@ public class BottomNavHandle {
       MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW, ViewStackPolicy.SKIP);
       MobileApplication.getInstance().getView().setBottom(bottomNavigation);
       btn1.setSelected(true);
-      // MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button());
-      MobileApplication.getInstance().getAppBar().setTitleText("Tap to show customers");
-      MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
-        MobileApplication.getInstance().showLayer("employeeTable");
-        //System.out.println("hello");
-        //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
-        //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
-      }));
+      //MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button());
+     /* try {
+        // if (!Platform.isDesktop()) {
+        MobileApplication.getInstance().getAppBar().setTitleText(customersText.getText());
+        MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
+          MobileApplication.getInstance().showLayer("employeeTable");
+          //System.out.println("hello");
+          //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
+          //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
+        }));
+        MobileApplication.getInstance().getAppBar().getActionItems().add(controlsText);
+        MobileApplication.getInstance().getAppBar().getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> {
+          MobileApplication.getInstance().showLayer(("buttonLayer"));
+        }));
+        // }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }*/
       //Membership View
     });
     btn2.setOnAction((event) -> {
