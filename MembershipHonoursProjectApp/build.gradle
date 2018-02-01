@@ -39,7 +39,7 @@ dependencies {
 //compile 'com.gluonhq:charm:4.4.1'
 //compile 'com.airhacks:afterburner.mfx:1.6.3'
     compile 'egulias:EmailValidator4J:1.0.0'
-// androidRuntime 'com.gluonhq:charm-down-core-android:3.5.0'
+    androidRuntime 'com.gluonhq:charm-down-core-android:3.7.0'
 
 
 }
@@ -93,6 +93,9 @@ jfxmobile {
         plugins 'cache', 'display', 'lifecycle', 'statusbar', 'storage'
     }
     android {
+        dexOptions {
+            javaMaxHeapSize '3g'
+        }
         //  javafxportsVersion = '8.60.9'
         //androidSdk = 'C:/Users/kamilek/AppData/Local/Android/sdk'
 

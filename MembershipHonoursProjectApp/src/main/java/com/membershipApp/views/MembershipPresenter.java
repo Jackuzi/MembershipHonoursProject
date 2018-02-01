@@ -32,7 +32,7 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
     membershipList.setItems(mem);
     membershipView.setCenter(membershipList);
     membershipList.setCellFactory(p -> new MembershipCells());
-
+    System.out.println("here2");
 
   }
 }

@@ -6,6 +6,7 @@ import com.gluonhq.charm.glisten.control.BottomNavigation;
 import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.views.ManagePresenter;
+import javafx.concurrent.Task;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -18,6 +19,13 @@ public class BottomNavHandle {
   private ManagePresenter mp = new ManagePresenter();
   private Label controlsText = new Label();
   private Label customersText = new Label();
+
+
+  public BottomNavigation getBottomNavigation() {
+    return bottomNavigation;
+  }
+
+  private BottomNavigation bottomNavigation;
 
 
   public BottomNavHandle() {
@@ -33,74 +41,112 @@ public class BottomNavHandle {
 
   public BottomNavigation createBottomNavigation() {
     BottomNavigation bottomNavigation = new BottomNavigation();
+    setBottomNavigation(bottomNavigation);
+    loadLogin();
+    loadManage();
+    loadMembership();
+    loadReminder();
     //Home View
-    btn0.setOnAction((event) -> {
-      // Button was clicked, do something...
-      //MobileApplication.getInstance().switchView(MembershipAppMain.HOME_VIEW);
-      //MobileApplication.getInstance().getView().setTop(bottomNavigation);
-      MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW, ViewStackPolicy.SKIP);
-      btn0.setSelected(true);
-      Button logoutButton = new Button();
-      logoutButton.setText("Log out");
-      MobileApplication.getInstance().getAppBar().getActionItems().add(logoutButton);
-      // MobileApplication.getInstance().getAppBar().setVisible(false);
-    });
-    //Manage View
-    btn1.setOnAction((event) -> {
-      // Button was clicked, do something...
-      MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
-      btn1.setSelected(true);
-      //MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button());
-     /* try {
-        // if (!Platform.isDesktop()) {
-        MobileApplication.getInstance().getAppBar().setTitleText(customersText.getText());
-        MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
-          MobileApplication.getInstance().showLayer("employeeTable");
-          //System.out.println("hello");
-          //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
-          //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
-        }));
-        MobileApplication.getInstance().getAppBar().getActionItems().add(controlsText);
-        MobileApplication.getInstance().getAppBar().getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> {
-          MobileApplication.getInstance().showLayer(("buttonLayer"));
-        }));
-        // }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }*/
-      //Membership View
-    });
-    btn2.setOnAction((event) -> {
-      // Button was clicked, do something...
-      MobileApplication.getInstance().switchView(MembershipAppMain.MEMBERSHIP_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
-      btn2.setSelected(true);
-      MobileApplication.getInstance().getAppBar().setVisible(false);
-
-
-    });
-    //Reminder View
-    btn3.setOnAction((event) -> {
-      // Button was clicked, do something...
-      MobileApplication.getInstance().switchView(MembershipAppMain.REMINDER_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
-      btn3.setSelected(true);
-      MobileApplication.getInstance().getAppBar().setVisible(false);
-
-    });
-    //Settings View
-    btn4.setOnAction((event) -> {
-      // Button was clicked, do something...
-      MobileApplication.getInstance().switchView(MembershipAppMain.SETTINGS_VIEW, ViewStackPolicy.SKIP);
-      MobileApplication.getInstance().getView().setBottom(bottomNavigation);
-      btn4.setSelected(true);
-      MobileApplication.getInstance().getAppBar().setVisible(false);
-
-    });
-    bottomNavigation.getActionItems().addAll(btn0, btn3, btn1, btn2, btn4);
+    loadSettings();
+    bottomNavigation.getActionItems().
+            addAll(btn0, btn3, btn1, btn2, btn4);
     return bottomNavigation;
   }
 
+  private void loadSettings() {
+    btn4.setOnAction((event) ->
+    {
+      Task<Void> settingsTask = new Task<Void>() {
+        @Override
+        protected Void call() {
+          // Button was clicked, do something...
+          MobileApplication.getInstance().switchView(MembershipAppMain.SETTINGS_VIEW, ViewStackPolicy.SKIP);
+          MobileApplication.getInstance().getView().setBottom(bottomNavigation);
+          btn4.setSelected(true);
+          MobileApplication.getInstance().getAppBar().setVisible(false);
+          return null;
+        }
+      };
+      new Thread(settingsTask).run();
+    });
+  }
 
+  private void loadLogin() {
+    btn0.setOnAction((event) -> {
+      Task<Void> loginTask = new Task<Void>() {
+        @Override
+        protected Void call() {
+          // Button was clicked, do something...
+          //MobileApplication.getInstance().switchView(MembershipAppMain.HOME_VIEW);
+          //MobileApplication.getInstance().getView().setTop(bottomNavigation);
+          MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW, ViewStackPolicy.SKIP);
+          btn0.setSelected(true);
+          Button logoutButton = new Button();
+          logoutButton.setText("Log out");
+          MobileApplication.getInstance().getAppBar().getActionItems().add(logoutButton);
+          // MobileApplication.getInstance().getAppBar().setVisible(false);
+          return null;
+        }
+      };
+      new Thread(loginTask).run();
+    });
+  }
+
+  private void loadManage() {
+    //Manage View
+    btn1.setOnAction((event) -> {
+      Task<Void> manageTask = new Task<Void>() {
+        @Override
+        protected Void call() {
+          // Button was clicked, do something...
+          MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW, ViewStackPolicy.SKIP);
+          MobileApplication.getInstance().getView().setBottom(bottomNavigation);
+          btn1.setSelected(true);
+          return null;
+        }
+      };
+      new Thread(manageTask).run();
+    });
+  }
+
+  private void loadReminder() {
+    //Reminder View
+    btn3.setOnAction((event) ->
+    {
+      Task<Void> reminderTask = new Task<Void>() {
+        @Override
+        protected Void call() {
+          // Button was clicked, do something...
+          MobileApplication.getInstance().switchView(MembershipAppMain.REMINDER_VIEW, ViewStackPolicy.SKIP);
+          MobileApplication.getInstance().getView().setBottom(bottomNavigation);
+          btn3.setSelected(true);
+          MobileApplication.getInstance().getAppBar().setVisible(false);
+          return null;
+        }
+      };
+      new Thread(reminderTask).run();
+    });
+  }
+
+  private void loadMembership() {
+    //membership view
+    btn2.setOnAction((event) -> {
+      Task<Void> membershipTask = new Task<Void>() {
+        @Override
+        protected Void call() {
+          MobileApplication.getInstance().switchView(MembershipAppMain.MEMBERSHIP_VIEW, ViewStackPolicy.SKIP);
+          MobileApplication.getInstance().getView().setBottom(bottomNavigation);
+          btn2.setSelected(true);
+          MobileApplication.getInstance().getAppBar().setVisible(false);
+          return null;
+        }
+      };
+      new Thread(membershipTask).run();
+    });
+  }
+
+
+  public void setBottomNavigation(BottomNavigation bottomNavigation) {
+    this.bottomNavigation = bottomNavigation;
+  }
 }

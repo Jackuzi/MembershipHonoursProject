@@ -3,8 +3,6 @@ package com.membershipApp;
 import com.gluonhq.charm.down.Platform;
 import com.gluonhq.charm.down.Services;
 import com.gluonhq.charm.down.plugins.LifecycleService;
-import com.gluonhq.charm.glisten.animation.FadeInLeftBigTransition;
-import com.gluonhq.charm.glisten.animation.FadeOutRightBigTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.LifecycleEvent;
@@ -16,6 +14,7 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import com.gluonhq.charm.glisten.visual.Theme;
 import com.membershipApp.views.*;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -35,15 +34,14 @@ public class MembershipAppMain extends MobileApplication {
   public static String MEMBERSHIP_VIEW = "Membership View";
   public static String LOGIN_VIEW = HOME_VIEW;
   public static Scene scene;
-  public static SplashView login;
+  private SplashView splash = new SplashView();
 
 
   @Override
   public void init() {
     System.out.println("java version: " + System.getProperty("java.version"));
     System.out.println("javafx.version: " + System.getProperty("javafx.version"));
-    //showLoginScreen();
-    //showSplashScreen();
+    showSplashScreen();
     //Login View
     addViewFactory(LOGIN_VIEW, () -> {
       View view = (View) new LoginView().getView();
@@ -107,8 +105,6 @@ public class MembershipAppMain extends MobileApplication {
       MembershipView mv = new MembershipView();
       return (View) mv.getView();
     });
-
-
   }
 
   private void showLoginScreen() {
@@ -123,15 +119,10 @@ public class MembershipAppMain extends MobileApplication {
       pi.setRadius(60);
       SplashView splashView = new SplashView(pi);
       splashView.setOnShown((LifecycleEvent e) -> {
-        FadeInLeftBigTransition fadein = new FadeInLeftBigTransition(splashView.getParent());
+        PauseTransition fadein = new PauseTransition(Duration.seconds(2));
         fadein.play();
         fadein.setOnFinished((ActionEvent a) -> {
-          FadeOutRightBigTransition fadeout = new FadeOutRightBigTransition((splashView.getParent()));
-          fadeout.setDelay(Duration.seconds(3));
-          fadeout.play();
-          fadeout.setOnFinished(((ActionEvent f) -> {
-            splashView.hideSplashView();
-          }));
+          splashView.hideSplashView();
         });
       });
       return splashView;
@@ -161,7 +152,11 @@ public class MembershipAppMain extends MobileApplication {
     //ScenicView.show(scene);
   }
 
-  public void getLogin() {
+  public SplashView getSplash() {
+    return splash;
   }
 
+  public void setSplash(SplashView splash) {
+    this.splash = splash;
+  }
 }

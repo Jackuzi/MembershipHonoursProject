@@ -4,9 +4,9 @@
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.*?>
-<View fx:id="manageView" stylesheets="@primary.css" xmlns="http://javafx.com/javafx/8.0.152"
+<View fx:id="manageView" stylesheets="@primary.css" xmlns="http://javafx.com/javafx/8.0.141"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.ManagePresenter">
     <center>
         <VBox styleClass="borders">
@@ -27,9 +27,6 @@
                             </HBox.margin>
                         </Avatar>
                     </children>
-                    <effect>
-                        <DropShadow color="#ddcfcf"/>
-                    </effect>
                 </HBox>
                 <HBox spacing="2.0">
                     <children>
@@ -40,9 +37,6 @@
                                     <VBox.margin>
                                         <Insets/>
                                     </VBox.margin>
-                                    <effect>
-                                        <Blend/>
-                                    </effect>
                                     <padding>
                                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                                     </padding>
@@ -62,9 +56,6 @@
                                     <VBox.margin>
                                         <Insets/>
                                     </VBox.margin>
-                                    <effect>
-                                        <Blend/>
-                                    </effect>
                                     <padding>
                                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                                     </padding>
@@ -102,15 +93,12 @@
                                     <VBox.margin>
                                         <Insets/>
                                     </VBox.margin>
-                                    <effect>
-                                        <Blend/>
-                                    </effect>
                                     <padding>
                                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                                     </padding>
                                 </TextField>
                                 <TextField minHeight="40.0" minWidth="50.0" opacity="0.0"
-                                           style="-fx-text-fill: white; -fx-background-color: grey; -fx-background-radius: 5;"
+                                           style=" -fx-background-color: grey; -fx-background-radius: 5;"
                                            stylesheets="@primary.css">
                                     <VBox.margin>
                                         <Insets/>
@@ -136,9 +124,6 @@
                                     <VBox.margin>
                                         <Insets/>
                                     </VBox.margin>
-                                    <effect>
-                                        <Blend/>
-                                    </effect>
                                     <padding>
                                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                                     </padding>
@@ -165,9 +150,6 @@
                     </children>
                 </HBox>
             </children>
-            <effect>
-                <DropShadow/>
-            </effect>
             <padding>
                 <Insets top="2.0"/>
             </padding>
@@ -178,15 +160,13 @@
             <children>
                 <TableView fx:id="custTable" styleClass="borders2">
                     <columns>
-                        <TableColumn fx:id="idCol" prefWidth="53.333374977111816" text="Id"/>
+                        <TableColumn fx:id="idCol" maxWidth="50.0" minWidth="50.0" prefWidth="53.333374977111816"
+                                     text="Id"/>
                         <TableColumn fx:id="namCol" editable="false" maxWidth="109.99999713897705" minWidth="-1.0"
-                                     prefWidth="83.33337783813477" text="Name"/>
+                                     prefWidth="51.3333740234375" text="Name"/>
                         <TableColumn fx:id="surCol" editable="false" maxWidth="247.333353360494" minWidth="-1.0"
-                                     prefWidth="107.3333740234375" text="Surname"/>
+                                     prefWidth="56.0" text="Surname"/>
                     </columns>
-                    <effect>
-                        <DropShadow/>
-                    </effect>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                     </columnResizePolicy>
@@ -246,9 +226,6 @@
             <padding>
                 <Insets right="5.0"/>
             </padding>
-            <effect>
-                <DropShadow/>
-            </effect>
         </VBox>
     </right>
 </View>
