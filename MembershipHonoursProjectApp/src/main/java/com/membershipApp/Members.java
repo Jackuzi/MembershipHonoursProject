@@ -15,20 +15,18 @@ public class Members {
   }
 
   private ObservableList<MemberModel> memberData = FXCollections.observableArrayList();
-  //public ObservableList<ReminderModel> getMembershipData() {return membershipData;}
-  //private ObservableList<ReminderModel> membershipData = FXCollections.observableArrayList();
-
 
   public Members() {
     db = new DatabaseConnectionHandler();
-
   }
 
   public void retrieveData(int choice) {
     //choice 0 = customer
     //choice 1 = employee
     String sql = null;
+    String memSQL = null;
     if (choice == 0) {
+      memSQL = "SELECT *FROM INFORMATION_SCHEMA.MEMBERSHIPVIEW";
       sql = "SELECT * FROM INFORMATION_SCHEMA.CUSTOMERVIEW";
     } else if (choice == 1) {
       sql = "SELECT * FROM INFORMATION_SCHEMA.EMPLOYEEVIEW";
@@ -36,8 +34,6 @@ public class Members {
     try {
       db.dbServerStart();
       db.getConn();
-      //System.out.println(db.getConn().isClosed());
-      //System.out.println(db.getConn().getSchema());
       Statement st = db.getConn().createStatement();
       ResultSet rs = st.executeQuery(sql);
       while (rs.next()) {
@@ -50,11 +46,6 @@ public class Members {
         //Customer table
         if (choice == 0) {
           idDb = rs.getInt("customerId");//customer
-          //membershipInfo
-          dFrom = rs.getDate("dateFrom");//customer
-          dTo = rs.getDate("dateTo");//customer
-          dCancel = rs.getDate("cancellationDate");//customer
-          isExpired = rs.getBoolean("expired");//customer
         } else if (choice == 1) {
           idDb = rs.getInt("employeeId");//employee
           password = rs.getString("password");//employee
@@ -71,30 +62,28 @@ public class Members {
         String pDb = rs.getString("postcode");//shared
         String couDb = rs.getString("country");//shared
         if (choice == 0) {
+          // if customer has membership, else put null into object
+          st = db.getConn().createStatement();
+          ResultSet rs2 = st.executeQuery(memSQL);
+          while (rs2.next()) {
+            String custMembershipEmail = rs2.getString("email");
+            if (custMembershipEmail.equals(eDb)) {
+              dFrom = rs2.getDate("dateFrom");//customer
+              dTo = rs2.getDate("dateTo");//customer
+              dCancel = rs2.getDate("cancellationDate");//customer
+              isExpired = rs2.getBoolean("expired");//customer
+            }
+          }
           memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, null));
         } else if (choice == 1) {
           memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, password));
         }
-        //System.out.println(dFrom.toString() + dTo + dCancel + isExpired);
-        //System.out.println(idDb + nDb + sDb + stDb + hDb + tDb + eDb + pDb + cDb + dobDb + couDb);
-        //System.out.println(memberData.toString());
       }
     } catch (Exception e1) {
       e1.printStackTrace();
     } finally {
       System.out.println("Server stopped");
-      //db.getServer().stop();
     }
-
-  }
-
-  public void insertData() {
-  }
-
-  public void updateData() {
-  }
-
-  public void deleteData() {
   }
 }
 

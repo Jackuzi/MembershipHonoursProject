@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.CacheHint;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -28,6 +29,7 @@ import javafx.scene.layout.VBox;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,6 +85,8 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   private StackPane buttonStack;
   @FXML
   private VBox vboxMenu;
+  @FXML
+  private CheckBox newEmployeeCheckbox;
 
 
   private String message;
@@ -93,6 +97,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   private final ArrayList<TextField> textFields = new ArrayList<>();
   private DatePicker datePicker = new DatePicker();
   private int id;
+  private int addressId;
 
   public String getN() {
     n = nameField.getText();
@@ -144,35 +149,78 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     return d;
   }
 
-  private int getMaxId() throws SQLException {
+  private int getMaxId(String sqlSelect, int option) throws SQLException {
+    String columnLabel = null;
+    columnLabel = "maxid";
     Statement st2 = db.getConn().createStatement();
-    int id2;
-    try (ResultSet rs = st2.executeQuery("SELECT CUSTOMERID FROM CUSTOMER ")) {
-      id2 = 0;
-      if (rs.next()) {
-        id2 = rs.getInt("customerId");
+    try (ResultSet rs = st2.executeQuery(sqlSelect)) {
+      //id2 = 0;
+      while (rs.next()) {
+        id = rs.getInt(columnLabel);
       }
     }
-    System.out.println(id2);
-    id = id2 + 1;
-    return id;
+    System.out.println(id + 1);
+    return id + 1;
   }
 
   @FXML
   void addMember(ActionEvent event) {
+    String sql = null;
     try {
       db.dbServerStart();
-      id = getMaxId();
-
+      id = getMaxId("SELECT MAX(CUSTOMERID) as maxid FROM CUSTOMER ", 1);
+      addressId = getMaxId("SELECT MAX(ADDRESSID) as maxid FROM ADDRESS", 2);
     } catch (SQLException e1) {
       e1.printStackTrace();
     }
     System.out.println("add");
     if ((isFieldEmpty()) && (!isDuplicate(getN(), getS(), getE())) && (isEmailValid())) {
-      //db.getConn();
-      members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Integer.parseInt(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, false, null));
-      message = "Member added succesfully";
-      MobileApplication.getInstance().showMessage(message);
+      //add to database
+      if (newEmployeeCheckbox.isSelected()) {
+        System.out.println("new employee ticked");
+        sql = "INSERT INTO PUBLIC.EMPLOYEE(NAME, SURNAME, ADDRESSID, DOB, EMAIL, TELEPHONE) VALUES (?,?,?,?,?,?)";
+
+      } else if (!newEmployeeCheckbox.isSelected()) {
+        members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Integer.parseInt(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, false, null));
+        message = "Member added succesfully";
+        MobileApplication.getInstance().showMessage(message);
+        System.out.println("new customer");
+        sql = "INSERT INTO PUBLIC.CUSTOMER(NAME, SURNAME, ADDRESSID, DOB, EMAIL, TELEPHONE) VALUES (?,?,?,?,?,?)";
+      }
+      try {
+        System.out.println(id + "  customerID/employeeID");
+        System.out.println(addressId + "  addressID");
+        String sqlAddress = "INSERT INTO PUBLIC.ADDRESS(HOUSENUMBER, STREET, CITY, POSTCODE, COUNTRY, ADDRESSID) VALUES (?,?,?,?,?,?)";
+        PreparedStatement ps = db.getConn().prepareStatement(sql);
+        PreparedStatement ps2 = db.getConn().prepareStatement(sqlAddress);
+        ps.setString(1, getN());
+        ps.setString(2, getS());
+        ps.setInt(3, addressId);
+        ps.setString(4, getD());
+        ps.setString(5, getE());
+        ps.setString(6, getT());
+        ps2.setString(1, getH());
+        ps2.setString(2, getSt());
+        ps2.setString(3, getC());
+        ps2.setString(4, getP());
+        ps2.setString(5, getCou());
+        ps2.setInt(6, addressId);
+        if (!newEmployeeCheckbox.isSelected()) {
+          // ps.setInt(7, id);
+        }
+        if (newEmployeeCheckbox.isSelected()) {
+          //  ps.setInt(7, addressId);
+        }
+        ps2.executeUpdate();
+        ps.executeUpdate();
+        ps2.close();
+        ps.close();
+
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+
+      }
+
     } else if ((!isFieldEmpty())) {
       message = "Please correct empty fields";
       //consider using that, check performance first

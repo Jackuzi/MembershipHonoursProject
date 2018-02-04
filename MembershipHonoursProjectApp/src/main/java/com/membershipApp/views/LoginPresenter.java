@@ -76,7 +76,7 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
     loginView.setCache(true);
     loginView.setCacheShape(true);
     loginView.setCacheHint(CacheHint.SPEED);
-    loginView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
+    loginView.setShowTransitionFactory(BounceInUpTransition::new);
 
 
   }

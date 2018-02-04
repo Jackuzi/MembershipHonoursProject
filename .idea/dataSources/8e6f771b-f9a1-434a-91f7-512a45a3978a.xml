@@ -15,40 +15,38 @@
     <table id="6" parent="4" name="CUSTOMER"/>
     <table id="7" parent="4" name="EMPLOYEE"/>
     <table id="8" parent="4" name="MEMBERSHIP"/>
-    <column id="9" parent="5" name="ADDRESSID">
+    <column id="9" parent="5" name="HOUSENUMBER">
       <Position>1</Position>
-      <DataType>INTEGER(10)|4</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-      <DefaultExpression>(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_0DC4FC23_256C_43CB_B029_14F61B2703D9)</DefaultExpression>
-    </column>
-    <column id="10" parent="5" name="HOUSENUMBER">
-      <Position>2</Position>
       <DataType>VARCHAR(10)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="11" parent="5" name="STREET">
+    <column id="10" parent="5" name="STREET">
+      <Position>2</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="11" parent="5" name="CITY">
       <Position>3</Position>
       <DataType>VARCHAR(50)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="12" parent="5" name="CITY">
+    <column id="12" parent="5" name="POSTCODE">
       <Position>4</Position>
-      <DataType>VARCHAR(50)|12</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="13" parent="5" name="POSTCODE">
-      <Position>5</Position>
       <DataType>VARCHAR(10)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="14" parent="5" name="COUNTRY">
-      <Position>6</Position>
+    <column id="13" parent="5" name="COUNTRY">
+      <Position>5</Position>
       <DataType>VARCHAR(20)|12</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="15" parent="5" name="CONSTRAINT_E">
-      <NameSurrogate>1</NameSurrogate>
+    <column id="14" parent="5" name="ADDRESSID">
+      <Position>6</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <key id="15" parent="5" name="ADDRESS_ADDRESSID_PK">
       <ColNames>ADDRESSID</ColNames>
       <Primary>1</Primary>
     </key>
@@ -94,7 +92,7 @@
       <ColNames>ADDRESSID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>ADDRESS</RefTableName>
-      <RefKeyName>CONSTRAINT_E</RefKeyName>
+      <RefKeyName>ADDRESS_ADDRESSID_PK</RefKeyName>
       <RefColNames>ADDRESSID</RefColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
@@ -143,7 +141,7 @@
       <ColNames>ADDRESSID</ColNames>
       <RefSchemaName>PUBLIC</RefSchemaName>
       <RefTableName>ADDRESS</RefTableName>
-      <RefKeyName>CONSTRAINT_E</RefKeyName>
+      <RefKeyName>ADDRESS_ADDRESSID_PK</RefKeyName>
       <RefColNames>ADDRESSID</RefColNames>
       <OnDelete>cascade</OnDelete>
       <OnUpdate>cascade</OnUpdate>
@@ -162,20 +160,31 @@
     </column>
     <column id="37" parent="8" name="DATEFROM">
       <Position>3</Position>
-      <DataType>TIMESTAMP(23,10)|93</DataType>
+      <DataType>DATE(8)|91</DataType>
     </column>
     <column id="38" parent="8" name="DATETO">
       <Position>4</Position>
-      <DataType>TIMESTAMP(23,10)|93</DataType>
+      <DataType>DATE(8)|91</DataType>
     </column>
     <column id="39" parent="8" name="CANCELLATIONDATE">
       <Position>5</Position>
-      <DataType>TIMESTAMP(23,10)|93</DataType>
+      <DataType>DATE(8)|91</DataType>
     </column>
-    <key id="40" parent="8" name="CONSTRAINT_C">
+    <column id="40" parent="8" name="EXPIRED">
+      <Position>6</Position>
+      <DataType>BOOLEAN|16</DataType>
+    </column>
+    <key id="41" parent="8" name="CONSTRAINT_C">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>MEMBERSHIPID</ColNames>
       <Primary>1</Primary>
     </key>
+    <foreign-key id="42" parent="8" name="MEMBERSHIP_CUSTOMER_CUSTOMERID_FK">
+      <ColNames>CUSTOMERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>CUSTOMER</RefTableName>
+      <RefKeyName>CUSTOMER_CUSTOMERID_PK</RefKeyName>
+      <RefColNames>CUSTOMERID</RefColNames>
+    </foreign-key>
   </database-model>
 </dataSource>

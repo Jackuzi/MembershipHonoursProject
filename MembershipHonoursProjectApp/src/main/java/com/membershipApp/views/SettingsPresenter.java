@@ -74,7 +74,7 @@ public class SettingsPresenter extends GluonPresenter<MembershipAppMain> {
     }
     if (!employeeTable.getSelectionModel().isEmpty()) {
       DatabaseConnectionHandler db = new DatabaseConnectionHandler();
-      String sql = "UPDATE PUBLIC.EMPLOYEE SET NAME = ?,SURNAME=?, EMAIL = ?, PASSWORD = ?";
+      String sql = "UPDATE PUBLIC.EMPLOYEE SET NAME = ?,SURNAME=?, EMAIL = ?, PASSWORD = ? WHERE EMPLOYEEID=?";
       try {
         db.dbServerStart();
         MemberModel mem = employeeTable.getSelectionModel().getSelectedItem();
@@ -84,6 +84,7 @@ public class SettingsPresenter extends GluonPresenter<MembershipAppMain> {
         ps.setString(2, mem.getSurname());
         ps.setString(3, mem.getEmail());
         ps.setString(4, mem.getPassword());
+        ps.setInt(5, mem.getCustomerId());
         ps.executeUpdate();
         ps.close();
         System.out.println(mem.getName() + " " + mem.getSurname() + " " + mem.getEmail());
