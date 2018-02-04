@@ -108,6 +108,7 @@ public class SettingsPresenter extends GluonPresenter<MembershipAppMain> {
     settingsView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
     members.retrieveData(1);//employee
     showEmployeesInTable();
+    
 
   }
 

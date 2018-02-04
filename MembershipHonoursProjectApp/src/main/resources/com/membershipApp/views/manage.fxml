@@ -153,7 +153,7 @@
     <left>
         <StackPane fx:id="tableStack">
             <children>
-                <TableView fx:id="custTable" styleClass="borders2">
+                <TableView fx:id="custTable" onMouseClicked="#tableListener" styleClass="borders2">
                     <columns>
                         <TableColumn fx:id="idCol" maxWidth="50.0" minWidth="50.0" prefWidth="53.333374977111816" text="Id" />
                         <TableColumn fx:id="namCol" editable="false" maxWidth="109.99999713897705" minWidth="-1.0" prefWidth="51.3333740234375" text="Name" />

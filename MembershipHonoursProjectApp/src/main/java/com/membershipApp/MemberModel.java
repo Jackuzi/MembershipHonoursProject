@@ -7,6 +7,8 @@ import java.sql.Date;
 public class MemberModel {
 
 
+  public SimpleIntegerProperty addressId() {return addressId;}
+
   public SimpleStringProperty nameProperty() {
     return name;
   }
@@ -27,7 +29,7 @@ public class MemberModel {
     return house;
   }
 
-  public SimpleIntegerProperty telProperty() {
+  public SimpleLongProperty telProperty() {
     return tel;
   }
 
@@ -56,7 +58,7 @@ public class MemberModel {
   private SimpleStringProperty surname;
   private SimpleStringProperty street;
   private SimpleStringProperty house;
-  private SimpleIntegerProperty tel;
+  private SimpleLongProperty tel;
   private SimpleStringProperty email;
   private SimpleStringProperty postcode;
   private SimpleStringProperty city;
@@ -67,11 +69,15 @@ public class MemberModel {
   private SimpleObjectProperty cancelDate;
   private SimpleBooleanProperty isExpired;
   private SimpleStringProperty password;
+  private SimpleIntegerProperty addressId;
 
   public String getSurname() {
     return surname.get();
   }
 
+  public int getAddressId() {
+    return addressId.get();
+  }
 
   public int getCustomerId() {
     return customerId.get();
@@ -85,7 +91,7 @@ public class MemberModel {
     return house.get();
   }
 
-  public Integer getTel() {
+  public Long getTel() {
     return tel.get();
   }
 
@@ -113,7 +119,7 @@ public class MemberModel {
     this.house.set(house);
   }
 
-  public void setTel(int tel) {
+  public void setTel(Long tel) {
     this.tel.set(tel);
   }
 
@@ -203,15 +209,18 @@ public class MemberModel {
     return country.get();
   }
 
+  public void setAddressId(int addressId) {
+    this.addressId.set(addressId);
+  }
 
   public MemberModel(int id, String name, String surname, String street, String house,
-                     int tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, boolean isExpired, String password) {
+                     Long tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, boolean isExpired, String password, int addressId) {
     this.customerId = new SimpleIntegerProperty(id);
     this.name = new SimpleStringProperty(name);
     this.surname = new SimpleStringProperty(surname);
     this.street = new SimpleStringProperty(street);
     this.house = new SimpleStringProperty(house);
-    this.tel = new SimpleIntegerProperty(tel);
+    this.tel = new SimpleLongProperty(tel);
     this.email = new SimpleStringProperty(email);
     this.postcode = new SimpleStringProperty(postcode);
     this.city = new SimpleStringProperty(city);
@@ -223,6 +232,7 @@ public class MemberModel {
     this.cancelDate = new SimpleObjectProperty<>(dCancel);
     this.isExpired = new SimpleBooleanProperty(isExpired);
     this.password = new SimpleStringProperty((password));
+    this.addressId = new SimpleIntegerProperty(addressId);
 
   }
 
@@ -244,6 +254,8 @@ public class MemberModel {
   public void setPassword(String password) {
     this.password.set(password);
   }
+
+
 }
 
 

@@ -50,11 +50,12 @@ public class Members {
           idDb = rs.getInt("employeeId");//employee
           password = rs.getString("password");//employee
         }
+        int aId = rs.getInt("addressId");
         String nDb = rs.getString("name");//shared
         String sDb = rs.getString("surname");//shared
         Date dobDb = rs.getDate("dob");//shared
         String eDb = rs.getString("email");//shared
-        int tDb = rs.getInt("telephone");//shared
+        Long tDb = rs.getLong("telephone");//shared
         //Address table
         String hDb = rs.getString("houseNumber");//shared
         String stDb = rs.getString("street");//shared
@@ -74,9 +75,9 @@ public class Members {
               isExpired = rs2.getBoolean("expired");//customer
             }
           }
-          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, null));
+          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, null, aId));
         } else if (choice == 1) {
-          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, password));
+          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, password, aId));
         }
       }
     } catch (Exception e1) {

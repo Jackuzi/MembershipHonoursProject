@@ -88,7 +88,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   @FXML
   private CheckBox newEmployeeCheckbox;
 
-
+  private MemberModel mem;
   private String message;
   private String n, s, st, h, e, p, c, d, cou;
   private String t;
@@ -174,14 +174,14 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
       e1.printStackTrace();
     }
     System.out.println("add");
-    if ((isFieldEmpty()) && (!isDuplicate(getN(), getS(), getE())) && (isEmailValid())) {
+    if ((isFieldEmpty()) && (!isDuplicate(getN(), getS(), getE(), 0)) && (isEmailValid())) {
       //add to database
       if (newEmployeeCheckbox.isSelected()) {
         System.out.println("new employee ticked");
         sql = "INSERT INTO PUBLIC.EMPLOYEE(NAME, SURNAME, ADDRESSID, DOB, EMAIL, TELEPHONE) VALUES (?,?,?,?,?,?)";
 
       } else if (!newEmployeeCheckbox.isSelected()) {
-        members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Integer.parseInt(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, false, null));
+        members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Long.valueOf(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, false, null, 0));
         message = "Member added succesfully";
         MobileApplication.getInstance().showMessage(message);
         System.out.println("new customer");
@@ -228,7 +228,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     } else if (!isEmailValid()) {
       message = " Email validation failed";
       MobileApplication.getInstance().showMessage(message);
-    } else if (isDuplicate(getN(), getS(), getE())) {
+    } else if (isDuplicate(getN(), getS(), getE(), 0)) {
       message = "User with same name and surname or email already exists in the database";
       MobileApplication.getInstance().showMessage(message);
     }
@@ -261,18 +261,29 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     return true;  // every field was empty (or else we'd have stopped earlier)
   }
 
-  private boolean isDuplicate(String name, String surname, String email) {
-    for (MemberModel members : members.getMemberData()) {
-      if (name.equals(members.getName()) && surname.equals(members.getSurname()) || email.equals(members.getEmail())) {
-        System.out.println("duplicate");
-        return true;
+  private boolean isDuplicate(String name, String surname, String email, int option) {
+    if (option == 0) {
+      for (MemberModel members : members.getMemberData()) {
+        if (name.equals(members.getName()) && surname.equals(members.getSurname()) || email.equals(members.getEmail())) {
+          System.out.println("duplicate");
+          return true;
+        }
+      }
+    } else if (option == 1) {
+      for (MemberModel members : members.getMemberData()) {
+        if (email.equals(members.getEmail())) {
+          System.out.println("duplicate");
+          return true;
+        }
       }
     }
     return false;
   }
 
   @FXML
-  void clearFields(ActionEvent event) {
+  void clearFields() {
+    newEmployeeCheckbox.setDisable(false);
+    custTable.getSelectionModel().clearSelection();
     System.out.println("clear");
     for (MemberModel member : members.getMemberData()) {
       System.out.println(member.toString());
@@ -286,6 +297,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   @FXML
   void removeMember(ActionEvent event) {
     System.out.println("remove");
+    mem = custTable.getSelectionModel().getSelectedItem();
     //if ok
     message = "Record removed";
     MobileApplication.getInstance().showMessage(message);
@@ -295,8 +307,49 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   void updateMember(ActionEvent event) {
     System.out.println("update");
     //if ok
-    message = "updated successfully";
-    MobileApplication.getInstance().showMessage(message);
+    mem = custTable.getSelectionModel().getSelectedItem();
+    if (!custTable.getSelectionModel().isEmpty()) {
+      String sql = "UPDATE PUBLIC.CUSTOMER SET NAME=?, SURNAME=?, DOB=?, EMAIL=?, TELEPHONE=?WHERE ADDRESSID=?";
+      String sqlAddress = "UPDATE PUBLIC.ADDRESS SET HOUSENUMBER=?, STREET=?, CITY=?, POSTCODE=?, COUNTRY=? WHERE ADDRESSID=?";
+      try {
+        db.dbServerStart();
+        PreparedStatement ps = db.getConn().prepareStatement(sql);
+        PreparedStatement ps2 = db.getConn().prepareStatement(sqlAddress);
+        ps.setString(1, getN());
+        ps.setString(2, getS());
+        ps.setString(3, getD());
+        ps.setString(4, getE());
+        ps.setLong(5, Long.valueOf(getT()));
+        ps.setInt(6, mem.getAddressId());
+        ps2.setString(1, getH());
+        ps2.setString(2, getSt());
+        ps2.setString(3, getC());
+        ps2.setString(4, getP());
+        ps2.setString(5, getCou());
+        ps2.setInt(6, mem.getAddressId());
+        // ps2.setInt(6, addressId);
+        if (!newEmployeeCheckbox.isSelected()) {
+          // ps.setInt(7, id);
+        }
+        if (newEmployeeCheckbox.isSelected()) {
+          //  ps.setInt(7, addressId);
+        }
+        ps2.executeUpdate();
+        ps.executeUpdate();
+        ps2.close();
+        ps.close();
+        message = "updated successfully";
+      } catch (SQLException e) {
+        e.printStackTrace();
+        message = "something went wrong. Update failed";
+      } finally {
+        clearFields();
+        members.getMemberData().clear();
+        members.retrieveData(0);
+        custTable.refresh();
+      }
+      MobileApplication.getInstance().showMessage(message);
+    }
   }
 
   @FXML
@@ -361,6 +414,40 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     addFieldFilter();
     if (!com.gluonhq.charm.down.Platform.isDesktop()) {
       initLayers();
+    }
+
+  }
+
+  @FXML
+  void tableListener() {
+    newEmployeeCheckbox.setDisable(true);
+    if (!custTable.getSelectionModel().isEmpty()) {
+      mem = custTable.getSelectionModel().getSelectedItem();
+      System.out.println("here");
+      nameField.setText(mem.getName());
+      //nameField.setFloatText("");
+      surField.setText(mem.getSurname());
+      if (mem.getDob() != null) {
+        dobLabel.setText(mem.getDob().toString());
+        //System.out.println(custTable.getDob().toLocalDate());
+      } //else dobField.getEditor().clear();
+      streetField.setText(mem.getStreet());
+      cityField.setText(mem.getCity());
+      postField.setText(mem.getPostcode());
+      countryField.setText((mem.getCountry()));
+      telField.setText(mem.getTel().toString());
+      emailField.setText(mem.getEmail());
+      houseField.setText(mem.getHouse());
+      /*
+      if (custTable.getProfile() != null && new File(custTable.getProfile()).isFile()) {
+        Image image = new Image("file:///" + custTable.getProfile());
+        imgField.setImage(image);
+      } else if (custTable.getProfile() == null) {
+        imgField.setImage(getDefaultImage());
+      } else if (!new File(custTable.getProfile()).isFile()) {
+        imgField.setImage(getDefaultImage());
+
+      }*/
     }
   }
 
