@@ -132,12 +132,21 @@ public class MembershipAppMain extends MobileApplication {
   @Override
   public void postInit(Scene scene) {
     //getLogin();
+    System.out.println(Platform.getCurrent().toString());
     MobileApplication.getInstance().getAppBar().setVisible(false);
     if (Platform.isDesktop()) {
       System.out.println(MobileApplication.getInstance().getView().getName());
-      scene.getWindow().setHeight(800);
+      scene.getWindow().setHeight(720);
       scene.getWindow().setWidth(1280);
+
+
     }
+    System.out.println(Platform.getCurrent().name());
+    /*if ((getScreenHeight() < 500) && (getScreenWidth() < 900)) {
+      scene.getWindow().setHeight(scene.getHeight());
+      scene.getWindow().setWidth(scene.getWidth());
+
+    }*/
     this.scene = scene;
     Swatch.TEAL.assignTo(scene);
     Theme.DARK.assignTo(scene);

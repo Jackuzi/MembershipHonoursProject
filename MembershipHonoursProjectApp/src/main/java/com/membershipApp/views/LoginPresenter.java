@@ -62,8 +62,12 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
       MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
       //if not succeded
     } else {
-      MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
-      MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
+      // MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
+      // MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
+    }
+    if ((MobileApplication.getInstance().getScreenHeight() < 500) && (MobileApplication.getInstance().getScreenWidth() < 900)) {
+      MembershipAppMain.getInstance().getView().setMaxHeight(480);
+      MembershipAppMain.getInstance().getView().setMaxWidth(800);
 
     }
   }

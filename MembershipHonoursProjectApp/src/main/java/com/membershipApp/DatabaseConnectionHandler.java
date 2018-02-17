@@ -30,19 +30,30 @@ public class DatabaseConnectionHandler {
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       }
+      //ClassLoader classLoader = getClass().getClassLoader();
+      // File file = new File(getClass().getClassLoader().getResource("database/MembershipDatabase.mv.db").getFile());
+      //System.out.println(file.getName());
+      //URL path = getClass().getResource("/database/MembershipDatabase.mv.db");
+      //String str = path.toString().substring(0, path.toString().length() - 6);
+      String sf;
+      File jarFile = new File(MembershipAppMain.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+      File file = new File(jarFile.getParentFile().getParent(), "/libs/MembershipDatabase.mv.db");
+      sf = file.toString().substring(0, file.toString().length() - 6);
+      if (!file.exists()) {
+        System.out.println("helloooooo");
+        sf = "./src/main/resources/database/MembershipDatabase";
+        //System.out.println(sf);
+      }
+      //if there is no jar file
       try {
+        System.out.println(sf);
         conn = DriverManager.
-                getConnection("jdbc:h2:./src/main/resources/database/MembershipDatabase", "admin", "Password");
+                getConnection("jdbc:h2:" + sf, "admin", "Password");
         System.out.println("Server started");
 
       } catch (SQLException e) {
-        e.printStackTrace();
-
       }
-      // add application code here
-      //conn.close();
-      // }
-      // nie dziala
+      // handle database if android platform
     } else if (Platform.isAndroid()) {
       File dir;
       try {

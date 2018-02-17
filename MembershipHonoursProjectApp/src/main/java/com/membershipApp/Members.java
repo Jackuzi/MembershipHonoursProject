@@ -32,6 +32,7 @@ public class Members {
       sql = "SELECT * FROM INFORMATION_SCHEMA.EMPLOYEEVIEW";
     }
     try {
+      //System.out.println(db.getConn().getSchema());
       db.dbServerStart();
       db.getConn();
       Statement st = db.getConn().createStatement();

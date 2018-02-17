@@ -10,12 +10,17 @@ buildscript {
         classpath 'org.javafxports:jfxmobile-plugin:1.3.10'
         //junit
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-RC3'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+
     }
 }
 
 apply plugin: 'org.javafxports.jfxmobile'
 //junit
 apply plugin: 'org.junit.platform.gradle.plugin'
+//
+apply plugin: 'com.github.johnrengelman.shadow'
+
 
 repositories {
     mavenCentral()
@@ -29,6 +34,7 @@ repositories {
 mainClassName = 'com.membershipApp.MembershipAppMain'
 
 dependencies {
+
     compile 'com.gluonhq:charm:4.4.1'
     compile 'com.gluonhq:glisten-afterburner:1.2.1'
     compile 'egulias:EmailValidator4J:1.0.0'
@@ -65,6 +71,7 @@ junitPlatform {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile group: 'com.h2database', name: 'h2', version: '1.4.196'
+    compile files('libs/h2-1.4.196.jar')
     //junit
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
@@ -108,11 +115,11 @@ jfxmobile {
     embedded {
         remotePlatforms {
             raspberry {
-                host = '192.168.1.10'
+                host = '192.168.1.9'
                 username = 'pi'
                 password = 'raspberry'
                 workingDir = '/home/pi/sample'
-                jreLocation = '/opt/java'
+                jreLocation = '/opt/jdk8'
                 execPrefix = 'sudo'
             }
         }
@@ -129,7 +136,17 @@ jfxmobile {
         ]
     }
 }
+
+
+
 task wrapper(type: Wrapper) {
     description = 'Generates gradlew[.bat] scripts'
     gradleVersion = '4.3.1'
 }
+
+shadowJar {
+    configurations = [project.configurations.desktopRuntime]
+
+
+}
+

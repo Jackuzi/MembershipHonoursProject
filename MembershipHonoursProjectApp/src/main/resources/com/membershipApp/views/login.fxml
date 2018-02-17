@@ -19,7 +19,7 @@
             <children>
                 <ImageView fx:id="memImg" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                     <VBox.margin>
-                        <Insets bottom="40.0" top="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </ImageView>
                 <HBox alignment="CENTER">
