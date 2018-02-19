@@ -71,7 +71,7 @@ junitPlatform {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile group: 'com.h2database', name: 'h2', version: '1.4.196'
-    compile files('libs/h2-1.4.196.jar')
+    
     //junit
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")

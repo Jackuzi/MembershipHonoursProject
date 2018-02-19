@@ -52,24 +52,27 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
   @FXML
   void loginAttempt(ActionEvent event) {
     //set window size
-    //if succeeded
-    if (Platform.isDesktop()) {
-      System.out.println(MobileApplication.getInstance().getView().getName());
-      MembershipAppMain.scene.getWindow().setHeight(800);
-      MembershipAppMain.scene.getWindow().setWidth(1280);
+    //if succeeded needs to be added
+    if (Platform.isAndroid() || Platform.isIOS()) {
+      MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
+      MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
+    } else if (Platform.isDesktop() || (MobileApplication.getInstance().getScreenHeight() > 800) && (MobileApplication.getInstance().getScreenWidth() > 1000) && (!Platform.isAndroid())) {
+      //System.out.println(MobileApplication.getInstance().getView().getName());
+      //MembershipAppMain.scene.getWindow().setHeight(800);
+      // MembershipAppMain.scene.getWindow().setWidth(1280);
       MembershipAppMain.scene.getWindow().centerOnScreen();
       MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
       MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
       //if not succeded
     } else {
-      // MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
-      // MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
+      MobileApplication.getInstance().switchView(MembershipAppMain.LOGIN_VIEW);
+      MobileApplication.getInstance().getView().setBottom(new BottomNavHandle().createBottomNavigation());
     }
-    if ((MobileApplication.getInstance().getScreenHeight() < 500) && (MobileApplication.getInstance().getScreenWidth() < 900)) {
+   /* if ((MobileApplication.getInstance().getScreenHeight() < 500) && (MobileApplication.getInstance().getScreenWidth() < 900)) {
       MembershipAppMain.getInstance().getView().setMaxHeight(480);
       MembershipAppMain.getInstance().getView().setMaxWidth(800);
 
-    }
+    }*/
   }
 
 

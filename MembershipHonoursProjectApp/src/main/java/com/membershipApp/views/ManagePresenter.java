@@ -5,9 +5,11 @@ import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.DatePicker;
+import com.gluonhq.charm.glisten.control.Dialog;
 import com.gluonhq.charm.glisten.control.TextField;
 import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.DatabaseConnectionHandler;
 import com.membershipApp.MemberModel;
 import com.membershipApp.Members;
@@ -16,13 +18,12 @@ import emailvalidator4j.EmailValidator;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.CacheHint;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -34,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 
@@ -182,8 +184,6 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
       } else if (!newEmployeeCheckbox.isSelected()) {
         members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Long.valueOf(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, false, null, 0));
-        message = "Member added succesfully";
-        MobileApplication.getInstance().showMessage(message);
         System.out.println("new customer");
         sql = "INSERT INTO PUBLIC.CUSTOMER(NAME, SURNAME, ADDRESSID, DOB, EMAIL, TELEPHONE) VALUES (?,?,?,?,?,?)";
       }
@@ -219,6 +219,13 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
       } catch (SQLException e1) {
         e1.printStackTrace();
 
+      } finally {
+        message = "Member added succesfully";
+        MobileApplication.getInstance().showMessage(message);
+        clearFields();
+        members.getMemberData().clear();
+        members.retrieveData(0);
+        custTable.refresh();
       }
 
     } else if ((!isFieldEmpty())) {
@@ -282,6 +289,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   @FXML
   void clearFields() {
+    newEmployeeCheckbox.setSelected(false);
     newEmployeeCheckbox.setDisable(false);
     custTable.getSelectionModel().clearSelection();
     System.out.println("clear");
@@ -296,11 +304,28 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   @FXML
   void removeMember(ActionEvent event) {
-    System.out.println("remove");
+    System.out.println("remove method");
     mem = custTable.getSelectionModel().getSelectedItem();
     //if ok
-    message = "Record removed";
-    MobileApplication.getInstance().showMessage(message);
+    String delAddressSql = " DELETE FROM PUBLIC.ADDRESS WHERE ADDRESSID = ? ";
+    try {
+      db.dbServerStart();
+      PreparedStatement ps2 = db.getConn().prepareStatement(delAddressSql);
+      ps2.setInt(1, mem.getAddressId());
+      ps2.executeUpdate();
+      ps2.close();
+      db.getConn().close();
+    } catch (SQLException e) {
+      e.printStackTrace();
+
+    } finally {
+      message = "Record removed";
+      MobileApplication.getInstance().showMessage(message);
+      clearFields();
+      members.getMemberData().clear();
+      members.retrieveData(0);
+      custTable.refresh();
+    }
   }
 
   @FXML
@@ -355,9 +380,65 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   @FXML
   void membershipProcess(ActionEvent event) {
     System.out.println("membership Process");
+    //PopupView
+    if (!custTable.getSelectionModel().isEmpty()) {
+      Date dateFrom;
+      Date dateTo;
+      Dialog dialog = new Dialog(true);
+      VBox dialogContent = new VBox();
+      Label custName = new Label(custTable.getSelectionModel().getSelectedItem().getName() + " " + custTable.getSelectionModel().getSelectedItem().getSurname());
+      //Label validFrom = new Label("Valid From:");
+      Button validFromButton = new Button("Valid From: ");
+      validFromButton.setGraphic(MaterialDesignIcon.DATE_RANGE.graphic());
+      validFromButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+          // label.setText("Accepted");
+          System.out.println("choose date from");
+          datePicker.showAndWait().ifPresent(date -> validFromButton.setText("Valid From: " + " " + date.toString()));
 
+        }
+      });
+      Button validToButton = new Button("Valid To: ");
+      validToButton.setGraphic(MaterialDesignIcon.DATE_RANGE.graphic());
+      validToButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent e) {
+          // label.setText("Accepted");
+          System.out.println("choose date To");
+          datePicker.showAndWait().ifPresent(date -> validToButton.setText("Valid From: " + " " + date.toString()));
+        }
+      });
+      // validFrom.setGraphic(MaterialDesignIcon.DATE_RANGE.graphic());
+      //Label validTo = new Label("Valid To: ");
+      // validTo.setGraphic(MaterialDesignIcon.DATE_RANGE.graphic());
+      dialogContent.setSpacing(50);
+      dialogContent.alignmentProperty().set(Pos.CENTER);
+      dialogContent.getChildren().addAll(custName, validFromButton, validToButton);
+      dialog.setTitleText("Change/Cancel/Renew Membership");
+      dialog.setContent(dialogContent);
+      Button saveButton = new Button("SAVE");
+      dialog.getButtons().addAll(saveButton);
+      dialog.setOnCloseRequest(closeRequestEvent -> {
+        Dialog areYouSureDialog = new Dialog(false);
+        areYouSureDialog.setContent(new Label("Are you sure you want to discard all changes?"));
+        Button yesButton = new Button("DISCARD");
+        Button noButton = new Button("KEEP EDITING");
+        yesButton.setOnAction(event2 -> {
+          areYouSureDialog.hide();
+        });
+        noButton.setOnAction(event2 -> {
+          closeRequestEvent.consume();
+          areYouSureDialog.hide();
+        });
+        areYouSureDialog.getButtons().addAll(yesButton, noButton);
+        areYouSureDialog.showAndWait();
+      });
+      dialog.showAndWait();
+
+
+    }
   }
-
 
   @FXML
   public void chooseDate() {
@@ -412,7 +493,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
     members.retrieveData(0);
     showMembersInTable();
     addFieldFilter();
-    if (!com.gluonhq.charm.down.Platform.isDesktop()) {
+    if ((MobileApplication.getInstance().getScreenHeight() < 800) || (MobileApplication.getInstance().getScreenWidth() < 1000)) {
       initLayers();
     }
 

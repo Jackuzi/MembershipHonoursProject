@@ -60,15 +60,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library name="Gradle: h2-1.4.196">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/h2-1.4.196.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:charm:4.4.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.gluonhq:glisten-afterburner:1.2.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: egulias:EmailValidator4J:1.0.0" level="project" />
@@ -93,15 +84,6 @@
       <library name="Gradle: controlsfx-8.40.14">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/controlsfx-8.40.14.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="RUNTIME">
-      <library name="Gradle: h2-1.4.196">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/h2-1.4.196.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -140,15 +122,6 @@
       <library name="Gradle: controlsfx-8.40.14">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/controlsfx-8.40.14.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="TEST">
-      <library name="Gradle: h2-1.4.196">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../MembershipHonoursProjectApp/libs/h2-1.4.196.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

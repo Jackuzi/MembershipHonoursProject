@@ -74,7 +74,7 @@ public class MembershipAppMain extends MobileApplication {
       ManageView wv = new ManageView();
       viewProperty().addListener((observable) ->
       {
-        if (getView().getName().equals(MANAGE_VIEW) && !Platform.isDesktop()) {
+        if (getView().getName().equals(MANAGE_VIEW) && ((!Platform.isDesktop()) || ((getScreenHeight() < 820) && (getScreenWidth() < 1000)))) {
           AppBar appBar = MobileApplication.getInstance().getAppBar();
           Label controlsText = new Label();
           Label customersText = new Label();
@@ -134,14 +134,16 @@ public class MembershipAppMain extends MobileApplication {
     //getLogin();
     System.out.println(Platform.getCurrent().toString());
     MobileApplication.getInstance().getAppBar().setVisible(false);
-    if (Platform.isDesktop()) {
+    if (Platform.isAndroid()) {
+    } else if ((getScreenHeight() > 800) && (getScreenWidth() > 1000) && (!Platform.isAndroid())) {
       System.out.println(MobileApplication.getInstance().getView().getName());
       scene.getWindow().setHeight(720);
       scene.getWindow().setWidth(1280);
-
-
+    } else if (!Platform.isAndroid() || !Platform.isIOS()) {
+      scene.getWindow().setHeight(800);
+      scene.getWindow().setWidth(480);
     }
-    System.out.println(Platform.getCurrent().name());
+    //System.out.println(Platform.getCurrent().name());
     /*if ((getScreenHeight() < 500) && (getScreenWidth() < 900)) {
       scene.getWindow().setHeight(scene.getHeight());
       scene.getWindow().setWidth(scene.getWidth());
