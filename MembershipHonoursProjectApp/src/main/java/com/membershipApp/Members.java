@@ -42,7 +42,7 @@ public class Members {
         Date dFrom = null;
         Date dTo = null;
         Date dCancel = null;
-        boolean isExpired = false;
+        int expiration = 0;
         String password = null;
         //Customer table
         if (choice == 0) {
@@ -73,12 +73,12 @@ public class Members {
               dFrom = rs2.getDate("dateFrom");//customer
               dTo = rs2.getDate("dateTo");//customer
               dCancel = rs2.getDate("cancellationDate");//customer
-              isExpired = rs2.getBoolean("expired");//customer
+              expiration = rs2.getInt("expiration");//customer
             }
           }
-          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, null, aId));
+          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, expiration, null, aId));
         } else if (choice == 1) {
-          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, isExpired, password, aId));
+          memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, expiration, password, aId));
         }
       }
     } catch (Exception e1) {

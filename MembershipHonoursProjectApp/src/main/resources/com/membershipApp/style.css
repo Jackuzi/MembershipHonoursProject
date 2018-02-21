@@ -146,7 +146,50 @@
     -fx-border-insets: 20;
 }
 
-.charm-list-view .list-cell.header-cell > .list-tile > .text-box > .primary-text {
+.charm-list-view .list-cell > .list-tile > .text-box > .primary-text {
 
-    -fx-text-fill: green;
+    -fx-text-fill: #0086ff;
+}
+
+.charm-list-view .list-cell:selected > .list-tile > .text-box > .primary-text {
+
+    -fx-text-fill: #0200ff;
+}
+
+.charm-list-view .list-cell > .list-tile > .text-box > .secondary-text {
+
+    -fx-text-fill: white;
+}
+
+.charm-list-view .list-cell > .list-tile > .text-box > .tertiary-text {
+
+    -fx-text-fill: #e3cb00;
+
+}
+
+.charm-list-view .list-cell:selected > .list-tile > .text-box > .tertiary-text {
+
+    -fx-font-size: 15;
+}
+
+.charm-list-view .list-view {
+    -fx-background-color: transparent;
+}
+
+.charm-list-view .list-cell {
+
+    -fx-background-color: transparent;
+}
+
+.charm-list-view .list-cell:selected {
+    -fx-background-color: #109747;
+
+}
+
+#custNameLabel {
+    -fx-text-fill: #fff756;
+    -fx-font-size: 16px;
+    -fx-border-radius: 3;
+    -fx-border-color: green;
+    -fx-border-insets: -10;
 }

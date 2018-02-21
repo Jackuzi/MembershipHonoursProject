@@ -67,7 +67,7 @@ public class MemberModel {
   private SimpleObjectProperty dFrom;
   private SimpleObjectProperty dTo;
   private SimpleObjectProperty cancelDate;
-  private SimpleBooleanProperty isExpired;
+  private SimpleIntegerProperty expiration;
   private SimpleStringProperty password;
   private SimpleIntegerProperty addressId;
 
@@ -179,16 +179,16 @@ public class MemberModel {
     this.cancelDate.set(cancelDate);
   }
 
-  public boolean isIsExpired() {
-    return isExpired.get();
+  public int getExpiration() {
+    return expiration.get();
   }
 
-  public SimpleBooleanProperty isExpiredProperty() {
-    return isExpired;
+  public SimpleIntegerProperty expirationProperty() {
+    return expiration;
   }
 
-  public void setIsExpired(boolean isExpired) {
-    this.isExpired.set(isExpired);
+  public void setExpiration(Integer expiration) {
+    this.expiration.set(expiration);
   }
 
   public String getPostcode() {
@@ -214,7 +214,7 @@ public class MemberModel {
   }
 
   public MemberModel(int id, String name, String surname, String street, String house,
-                     Long tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, boolean isExpired, String password, int addressId) {
+                     Long tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, int expiration, String password, int addressId) {
     this.customerId = new SimpleIntegerProperty(id);
     this.name = new SimpleStringProperty(name);
     this.surname = new SimpleStringProperty(surname);
@@ -230,7 +230,7 @@ public class MemberModel {
     this.dFrom = new SimpleObjectProperty<>(dFrom);
     this.dTo = new SimpleObjectProperty<>(dTo);
     this.cancelDate = new SimpleObjectProperty<>(dCancel);
-    this.isExpired = new SimpleBooleanProperty(isExpired);
+    this.expiration = new SimpleIntegerProperty(expiration);
     this.password = new SimpleStringProperty((password));
     this.addressId = new SimpleIntegerProperty(addressId);
 

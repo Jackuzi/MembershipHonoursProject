@@ -193,14 +193,6 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </padding>
                 </Button>
-                <Button fx:id="memBut" mnemonicParsing="false" onAction="#membershipProcess" prefWidth="100.0" text="Membership" textAlignment="CENTER">
-                    <VBox.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </padding>
-                </Button>
                 <Button fx:id="clearBut" mnemonicParsing="false" onAction="#clearFields" prefWidth="100.0" text="Clear Fields" textAlignment="CENTER">
                     <VBox.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

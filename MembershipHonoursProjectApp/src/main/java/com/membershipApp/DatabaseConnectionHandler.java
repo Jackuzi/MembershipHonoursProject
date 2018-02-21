@@ -40,7 +40,7 @@ public class DatabaseConnectionHandler {
       File file = new File(jarFile.getParentFile().getParent(), "/libs/MembershipDatabase.mv.db");
       sf = file.toString().substring(0, file.toString().length() - 6);
       if (!file.exists()) {
-        System.out.println("helloooooo");
+        //System.out.println("helloooooo");
         sf = "./src/main/resources/database/MembershipDatabase";
         //System.out.println(sf);
       }
@@ -70,11 +70,11 @@ public class DatabaseConnectionHandler {
         String user = "admin";
         String pass = "Password";
         String dbUrl = "jdbc:h2:" + db.getAbsolutePath();
-        System.out.println(db);
-        System.out.println(dbUrl);
+        //System.out.println(db);
+        // System.out.println(dbUrl);
         dbUrl = dbUrl.substring(0, dbUrl.length() - 6);
-        System.out.println(db);
-        System.out.println(dbUrl);
+        // System.out.println(db);
+        // System.out.println(dbUrl);
         try {
           Class.forName("org.h2.Driver");
           conn = DriverManager.getConnection(dbUrl, user, pass);
