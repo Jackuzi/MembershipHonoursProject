@@ -7,6 +7,7 @@ import com.gluonhq.charm.glisten.control.Alert;
 import com.gluonhq.charm.glisten.control.CharmListView;
 import com.gluonhq.charm.glisten.control.DatePicker;
 import com.gluonhq.charm.glisten.control.Dialog;
+import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.*;
@@ -14,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -21,7 +23,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -31,7 +32,8 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
   private View membershipView;
   @FXML
   private StackPane buttonsStackPane;
-
+  @FXML
+  private VBox vboxPane;
   @FXML
   private CharmListView<MemberModel, Comparable> membershipList;
   private Members members = new Members();
@@ -52,22 +54,32 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
     membershipList = new CharmListView();
     membershipList.setItems(mem);
     membershipView.setCenter(membershipList);
-    membershipList.setCellFactory(p -> new MembershipCells());
+    membershipList.setCellFactory(p -> new MembershipCells(membershipList));
     membershipList.setOnPullToRefresh(event -> {
       membershipList.refresh();
     });
+    if ((MobileApplication.getInstance().getScreenHeight() < 800) || (MobileApplication.getInstance().getScreenWidth() < 1000)) {
+      initLayers();
+    }
+  }
 
-
+  private void initLayers() {
+    SidePopupView sidePopupView = new SidePopupView(vboxPane);
+    sidePopupView.setSide(Side.RIGHT);
+    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(vboxPane));
+    MobileApplication.getInstance().addLayerFactory("membershipButtonsLayer", () -> new SidePopupView(vboxPane));
   }
 
 
   @FXML
   void changeMembership(ActionEvent event) {
     innerList = (ListView) membershipList.lookup(".list-view");
-    Date dTo = Date.valueOf(membershipList.getSelectedItem().getdFrom().toString());
-    Date dFrom = Date.valueOf(membershipList.getSelectedItem().getdTo().toString());
-    dateTo = dTo.toLocalDate();
-    dateFrom = dFrom.toLocalDate();
+    if (membershipList.getSelectedItem().getdFrom() != null && membershipList.getSelectedItem().getdTo() != null) {
+      LocalDate dTo = LocalDate.parse(membershipList.getSelectedItem().getdFrom().toString()); //gives nullpointerexce
+      LocalDate dFrom = LocalDate.parse(membershipList.getSelectedItem().getdTo().toString()); //nullpointerexce
+      dateTo = dTo;
+      dateFrom = dFrom;
+    }
     //dateTo = membershipList.getSelectedItem().getdTo();
     //expired checkbox
     CheckBox expiration = new CheckBox("Expired in: " + membershipList.getSelectedItem().getExpiration() + " days");
@@ -136,7 +148,6 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
           alert.showAndWait();
           dialog.hide();
           refreshList();
-
         } else MobileApplication.getInstance().showMessage("Membership is cancelled, to renew uncheck the checkbox");
       });
       dialog.getButtons().addAll(saveButton);
@@ -158,9 +169,9 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
       db.dbServerStart();
       PreparedStatement ps1 = db.getConn().prepareStatement(updateMembership);
       ps1.setInt(1, membershipList.getSelectedItem().getCustomerId());
-      ps1.setDate(2, java.sql.Date.valueOf(dateFrom));
-      ps1.setDate(3, java.sql.Date.valueOf(dateTo));
-      ps1.setDate(4, null);
+      ps1.setString(2, dateFrom.toString());
+      ps1.setString(3, dateTo.toString());
+      ps1.setString(4, null);
       ps1.setInt(5, membershipList.getSelectedItem().getCustomerId());
       ps1.executeUpdate();
       ps1.close();
@@ -180,13 +191,15 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
     String cancelMembershipSql = "UPDATE PUBLIC.MEMBERSHIP SET CANCELLATIONDATE=? WHERE CUSTOMERID =?";
     try {
       // System.out.println(membershipList.getSelectedItem().getCancelDate());
-      if (innerList.getSelectionModel().isEmpty()) {
+      if (innerList.getSelectionModel().isEmpty())
+        /*innerList.getSelectionModel().isEmpty())*/ {
         //System.out.println("Nothing selected");
         MobileApplication.getInstance().showMessage("Nothing selected");
+        //Date.from(datePicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
       } else if (membershipList.getSelectedItem().getCancelDate() == null) {
         db.dbServerStart();
         PreparedStatement ps = db.getConn().prepareStatement(cancelMembershipSql);
-        ps.setDate(1, java.sql.Date.valueOf(datePicker.getDate()));
+        ps.setString(1, datePicker.getDate().toString());
         ps.setInt(2, membershipList.getSelectedItem().getCustomerId());
         ps.executeUpdate();
       } else {
@@ -206,13 +219,5 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
 
   @FXML
   void searchMembership(ActionEvent event) {
-  }
-
-  public boolean isSaved() {
-    return saved;
-  }
-
-  public void setSaved(boolean saved) {
-    this.saved = saved;
   }
 }

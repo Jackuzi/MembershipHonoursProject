@@ -4,20 +4,17 @@ import com.gluonhq.charm.down.Platform;
 import com.gluonhq.charm.down.Services;
 import com.gluonhq.charm.down.plugins.LifecycleService;
 import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.LifecycleEvent;
 import com.gluonhq.charm.glisten.control.ProgressIndicator;
 import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.SplashView;
 import com.gluonhq.charm.glisten.mvc.View;
-import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
 import com.gluonhq.charm.glisten.visual.Theme;
 import com.membershipApp.views.*;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -72,27 +69,6 @@ public class MembershipAppMain extends MobileApplication {
     //Manage View
     addViewFactory(MANAGE_VIEW, () -> {
       ManageView wv = new ManageView();
-      viewProperty().addListener((observable) ->
-      {
-        if (getView().getName().equals(MANAGE_VIEW) && ((!Platform.isDesktop()) || ((getScreenHeight() < 820) && (getScreenWidth() < 1000)))) {
-          AppBar appBar = MobileApplication.getInstance().getAppBar();
-          Label controlsText = new Label();
-          Label customersText = new Label();
-          controlsText.setText("Controls");
-          customersText.setText("Customers");
-          appBar.setTitleText(customersText.getText());
-          appBar.setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
-            MobileApplication.getInstance().showLayer("employeeTable");
-            //System.out.println("hello");
-            //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
-            //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
-          }));
-          appBar.getActionItems().add(controlsText);
-          appBar.getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> MobileApplication.getInstance().showLayer(("buttonLayer"))));
-        } else {
-          MobileApplication.getInstance().getAppBar().clear();
-        }
-      });
       return (View) wv.getView();
     });
     //Settings View

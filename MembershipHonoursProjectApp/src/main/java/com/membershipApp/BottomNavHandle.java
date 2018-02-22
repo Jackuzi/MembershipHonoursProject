@@ -1,7 +1,9 @@
 package com.membershipApp;
 
+import com.gluonhq.charm.down.Platform;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.application.ViewStackPolicy;
+import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.BottomNavigation;
 import com.gluonhq.charm.glisten.control.BottomNavigationButton;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
@@ -9,6 +11,9 @@ import com.membershipApp.views.ManagePresenter;
 import javafx.concurrent.Task;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
+import static com.membershipApp.MembershipAppMain.MANAGE_VIEW;
+import static com.membershipApp.MembershipAppMain.MEMBERSHIP_VIEW;
 
 public class BottomNavHandle {
   private BottomNavigationButton btn0;
@@ -95,11 +100,34 @@ public class BottomNavHandle {
   private void loadManage() {
     //Manage View
     btn1.setOnAction((event) -> {
+      MobileApplication.getInstance().viewProperty().addListener((observable) ->
+      {
+        if (MobileApplication.getInstance().getView().getName().equals(MANAGE_VIEW) && ((!Platform.isDesktop()) || ((MobileApplication.getInstance().getScreenHeight() < 820) && (MobileApplication.getInstance().getScreenWidth() < 1000)))) {
+          AppBar appBar = MobileApplication.getInstance().getAppBar();
+          appBar.clear();
+          Label controlsText = new Label();
+          Label customersText = new Label();
+          controlsText.setText("Controls");
+          customersText.setText("Customers");
+          appBar.setTitleText(customersText.getText());
+          appBar.setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
+            MobileApplication.getInstance().showLayer("employeeTable");
+            //System.out.println("hello");
+            //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
+            //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
+          }));
+          appBar.getActionItems().add(controlsText);
+          appBar.getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> MobileApplication.getInstance().showLayer(("buttonLayer"))));
+        } else {
+          MobileApplication.getInstance().getAppBar().clear();
+          //MobileApplication.getInstance().getAppBar().setVisible(false);
+        }
+      });
       Task<Void> manageTask = new Task<Void>() {
         @Override
         protected Void call() {
           // Button was clicked, do something...
-          MobileApplication.getInstance().switchView(MembershipAppMain.MANAGE_VIEW, ViewStackPolicy.SKIP);
+          MobileApplication.getInstance().switchView(MANAGE_VIEW, ViewStackPolicy.SKIP);
           MobileApplication.getInstance().getView().setBottom(bottomNavigation);
           btn1.setSelected(true);
           return null;
@@ -131,13 +159,28 @@ public class BottomNavHandle {
   private void loadMembership() {
     //membership view
     btn2.setOnAction((event) -> {
+      MobileApplication.getInstance().viewProperty().addListener((observable) ->
+      {
+        if (MobileApplication.getInstance().getView().getName().equals(MEMBERSHIP_VIEW) && ((!Platform.isDesktop()) || ((MobileApplication.getInstance().getScreenHeight() < 820) && (MobileApplication.getInstance().getScreenWidth() < 1000)))) {
+          AppBar appBar = MobileApplication.getInstance().getAppBar();
+          appBar.clear();
+          Label controlsText = new Label();
+          //Label customersText = new Label();
+          controlsText.setText("Controls");
+          appBar.getActionItems().add(controlsText);
+          appBar.getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> MobileApplication.getInstance().showLayer(("membershipButtonsLayer"))));
+        } else {
+          MobileApplication.getInstance().getAppBar().clear();
+          //MobileApplication.getInstance().getAppBar().setVisible(false);
+        }
+      });
       Task<Void> membershipTask = new Task<Void>() {
         @Override
         protected Void call() {
           MobileApplication.getInstance().switchView(MembershipAppMain.MEMBERSHIP_VIEW, ViewStackPolicy.SKIP);
           MobileApplication.getInstance().getView().setBottom(bottomNavigation);
           btn2.setSelected(true);
-          MobileApplication.getInstance().getAppBar().setVisible(false);
+          //MobileApplication.getInstance().getAppBar().setVisible(true);
           return null;
         }
       };
