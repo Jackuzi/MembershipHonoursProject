@@ -12,14 +12,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ReminderPresenter extends GluonPresenter<MembershipAppMain> {
-
   @FXML
   private ResourceBundle resources;
-
   @FXML
   private URL location;
-
-
   @FXML
   private View reminderView;
 
@@ -30,7 +26,6 @@ public class ReminderPresenter extends GluonPresenter<MembershipAppMain> {
     reminderView.setCacheHint(CacheHint.SPEED);
     reminderView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
   }
-
 
   @PostConstruct
   public void init() {

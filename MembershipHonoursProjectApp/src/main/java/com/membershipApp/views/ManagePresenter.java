@@ -3,6 +3,7 @@ package com.membershipApp.views;
 import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
+import com.gluonhq.charm.glisten.control.Alert;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.DatePicker;
 import com.gluonhq.charm.glisten.control.TextField;
@@ -19,10 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.CacheHint;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -34,6 +32,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -151,14 +150,6 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   private int getMaxId(String sqlSelect, int option) throws SQLException {
     int count = 0;
-    //String mysqltest = "SELECT * FROM INFORMATION_SCHEMA.SEQUENCES WHERE SEQUENCE_SCHEMA = 'PUBLIC' AND SEQUENCE_NAME = 'SYSTEM_SEQUENCE_9C07FDDC_36D2_4686_A895_13A1FA4370A6'";
-   /*Statement st1 = db.getConn().createStatement();
-    ResultSet rs1 = st1.executeQuery(mysqltest);
-    while (rs1.next()) {
-      Long ID = rs1.getLong("CURRENT_VALUE");
-      System.out.println(ID);
-    }
-    */
     String columnLabel = null;
     if (option == 1) {
       columnLabel = "CURRENT_VALUE";
@@ -237,6 +228,8 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
         e1.printStackTrace();
 
       } finally {
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Member added succesfully");
+        alert.showAndWait();
         message = "Member added succesfully";
         MobileApplication.getInstance().showMessage(message);
         clearFields();
@@ -246,13 +239,19 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
       }
 
     } else if ((!isFieldEmpty())) {
+      Alert alert = new Alert(javafx.scene.control.Alert.AlertType.WARNING, "Please correct empty fields");
+      alert.showAndWait();
       message = "Please correct empty fields";
       //consider using that, check performance first
       MobileApplication.getInstance().showMessage(message);
     } else if (!isEmailValid()) {
+      Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR, "Email validation failed");
+      alert.showAndWait();
       message = " Email validation failed";
       MobileApplication.getInstance().showMessage(message);
     } else if (isDuplicate(getN(), getS(), getE(), 0)) {
+      Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR, "User with same name and surname or email already exists in the database");
+      alert.showAndWait();
       message = "User with same name and surname or email already exists in the database";
       MobileApplication.getInstance().showMessage(message);
     }
@@ -322,26 +321,32 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   @FXML
   void removeMember(ActionEvent event) {
     System.out.println("remove method");
-    mem = custTable.getSelectionModel().getSelectedItem();
-    //if ok
-    String delAddressSql = " DELETE FROM PUBLIC.ADDRESS WHERE ADDRESSID = ? ";
-    try {
-      db.dbServerStart();
-      PreparedStatement ps2 = db.getConn().prepareStatement(delAddressSql);
-      ps2.setInt(1, mem.getAddressId());
-      ps2.executeUpdate();
-      ps2.close();
-      db.getConn().close();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION, "Are you sure to delete this record?");
+    Optional result = alert.showAndWait();
+    if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+      mem = custTable.getSelectionModel().getSelectedItem();
+      //if ok
+      String delAddressSql = " DELETE FROM PUBLIC.ADDRESS WHERE ADDRESSID = ? ";
+      try {
+        db.dbServerStart();
+        PreparedStatement ps2 = db.getConn().prepareStatement(delAddressSql);
+        ps2.setInt(1, mem.getAddressId());
+        ps2.executeUpdate();
+        ps2.close();
+        db.getConn().close();
+      } catch (SQLException e) {
+        e.printStackTrace();
 
-    } finally {
-      message = "Record removed";
-      MobileApplication.getInstance().showMessage(message);
-      clearFields();
-      members.getMemberData().clear();
-      members.retrieveData(0);
-      custTable.refresh();
+      } finally {
+        alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Record removed");
+        alert.showAndWait();
+        message = "Record removed";
+        MobileApplication.getInstance().showMessage(message);
+        clearFields();
+        members.getMemberData().clear();
+        members.retrieveData(0);
+        custTable.refresh();
+      }
     }
   }
 
@@ -380,10 +385,14 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
         ps.executeUpdate();
         ps2.close();
         ps.close();
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Update successfully");
+        alert.showAndWait();
         message = "updated successfully";
       } catch (SQLException e) {
         e.printStackTrace();
-        message = "something went wrong. Update failed";
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR, "Something went wrong. Update failed");
+        alert.showAndWait();
+        message = "Something went wrong. Update failed";
       } finally {
         clearFields();
         members.getMemberData().clear();
@@ -424,10 +433,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
 
   @PostConstruct
   public void init() {
-    //nH = new NotificationHandler();
     db = new DatabaseConnectionHandler();
-    // MobileApplication.getInstance().getView().setOnShowing(event -> updateAppBar(MobileApplication.getInstance().getAppBar()));
-    //System.out.println(MobileApplication.getInstance().getView().getName());
   }
 
   public void initialize() {

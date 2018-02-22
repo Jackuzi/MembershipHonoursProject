@@ -20,6 +20,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+
 public class MembershipAppMain extends MobileApplication {
 
   public static String PRIMARY_VIEW = "Primary View";
@@ -32,10 +34,12 @@ public class MembershipAppMain extends MobileApplication {
   public static String LOGIN_VIEW = HOME_VIEW;
   public static Scene scene;
   private SplashView splash = new SplashView();
+  public static HashMap loggedUser = new HashMap();
 
 
   @Override
   public void init() {
+    setLoggedUser(loggedUser);
     System.out.println("java version: " + System.getProperty("java.version"));
     System.out.println("javafx.version: " + System.getProperty("javafx.version"));
     showSplashScreen();
@@ -108,7 +112,7 @@ public class MembershipAppMain extends MobileApplication {
   @Override
   public void postInit(Scene scene) {
     //getLogin();
-    System.out.println(Platform.getCurrent().toString());
+    // System.out.println(Platform.getCurrent().toString());
     MobileApplication.getInstance().getAppBar().setVisible(false);
     if (Platform.isAndroid()) {
     } else if ((getScreenHeight() > 800) && (getScreenWidth() > 1000) && (!Platform.isAndroid())) {
@@ -145,5 +149,13 @@ public class MembershipAppMain extends MobileApplication {
 
   public void setSplash(SplashView splash) {
     this.splash = splash;
+  }
+
+  public HashMap getLoggedUser() {
+    return loggedUser;
+  }
+
+  public void setLoggedUser(HashMap loggedUser) {
+    this.loggedUser = loggedUser;
   }
 }

@@ -2,6 +2,7 @@ package com.membershipApp.views;
 
 import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
+import com.gluonhq.charm.glisten.control.Alert;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.membershipApp.DatabaseConnectionHandler;
 import com.membershipApp.MemberModel;
@@ -88,14 +89,14 @@ public class SettingsPresenter extends GluonPresenter<MembershipAppMain> {
         ps.executeUpdate();
         ps.close();
         System.out.println(mem.getName() + " " + mem.getSurname() + " " + mem.getEmail());
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Record updated");
+        alert.showAndWait();
       } catch (SQLException e) {
         e.printStackTrace();
       } finally {
         employeeTable.refresh();
-//        db.getServer().stop();
-        //showEmployeesInTable();
       }
-      //String message = "Record successfully Updated: ";
+
     }
   }
 
@@ -108,10 +109,7 @@ public class SettingsPresenter extends GluonPresenter<MembershipAppMain> {
     settingsView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
     members.retrieveData(1);//employee
     showEmployeesInTable();
-    
-
   }
-
 
   private void showEmployeesInTable() {
     employeeTable.setItems(members.getMemberData());

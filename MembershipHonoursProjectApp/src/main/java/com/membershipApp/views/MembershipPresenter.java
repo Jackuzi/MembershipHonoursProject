@@ -144,11 +144,13 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
         System.out.println("trying to save membership");
         if (!isCancelled.isSelected()) {
           saveToDatabase();
-          Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Membership Updated");
-          alert.showAndWait();
           dialog.hide();
           refreshList();
-        } else MobileApplication.getInstance().showMessage("Membership is cancelled, to renew uncheck the checkbox");
+        } else {
+          //MobileApplication.getInstance().showMessage("Membership is cancelled, to renew uncheck the checkbox");
+          Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Membership is cancelled, to renew uncheck the checkbox");
+          alert.showAndWait();
+        }
       });
       dialog.getButtons().addAll(saveButton);
       dialog.showAndWait();
@@ -163,25 +165,31 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
 
   private void saveToDatabase() {
     String updateMembership = "UPDATE PUBLIC.MEMBERSHIP SET CUSTOMERID=?,DATEFROM=?,DATETO=?, CANCELLATIONDATE=? WHERE CUSTOMERID=?";
-    //String updateMembership = "UPDATE TABLE PUBLIC.MEMBERSHIP SET DATETO =?";
-    //String cancelMembership = "UPDATE TABLE PUBLIC.MEMBERSHIP SET EXPIRED=?";
-    try {
-      db.dbServerStart();
-      PreparedStatement ps1 = db.getConn().prepareStatement(updateMembership);
-      ps1.setInt(1, membershipList.getSelectedItem().getCustomerId());
-      ps1.setString(2, dateFrom.toString());
-      ps1.setString(3, dateTo.toString());
-      ps1.setString(4, null);
-      ps1.setInt(5, membershipList.getSelectedItem().getCustomerId());
-      ps1.executeUpdate();
-      ps1.close();
-      db.getConn().close();
-    } catch (SQLException e) {
-      e.printStackTrace();
+    if (dateFrom != null && dateTo != null) {
+      try {
+        db.dbServerStart();
+        PreparedStatement ps1 = db.getConn().prepareStatement(updateMembership);
+        ps1.setInt(1, membershipList.getSelectedItem().getCustomerId());
+        ps1.setString(2, dateFrom.toString());
+        ps1.setString(3, dateTo.toString());
+        ps1.setString(4, null);
+        ps1.setInt(5, membershipList.getSelectedItem().getCustomerId());
+        ps1.executeUpdate();
+        ps1.close();
+        db.getConn().close();
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Membership updated");
+        alert.showAndWait();
+      } catch (SQLException e) {
+        e.printStackTrace();
 
-    } finally {
-      String message = "Membership Updated";
-      MobileApplication.getInstance().showMessage(message);
+      } finally {
+        String message = "Membership Updated";
+        MobileApplication.getInstance().showMessage(message);
+
+      }
+    } else {
+      Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR, "Date cannot be null");
+      alert.showAndWait();
     }
   }
 
@@ -215,7 +223,6 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
     }
 
   }
-
 
   @FXML
   void searchMembership(ActionEvent event) {
