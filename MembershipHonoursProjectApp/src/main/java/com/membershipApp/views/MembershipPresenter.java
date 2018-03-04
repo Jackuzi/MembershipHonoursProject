@@ -135,7 +135,7 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
       Button validToButton = new Button("Valid To: " + membershipList.getSelectedItem().getdTo());
       validToButton.setGraphic(MaterialDesignIcon.DATE_RANGE.graphic());
       validToButton.setOnAction(e -> {
-        datePicker.showAndWait().ifPresent(date -> validToButton.setText("Valid From: " + " " + date.toString()));
+        datePicker.showAndWait().ifPresent(date -> validToButton.setText("Valid To: " + " " + date.toString()));
         System.out.println(datePicker.getDate());
         dateTo = datePicker.getDate();
       });
