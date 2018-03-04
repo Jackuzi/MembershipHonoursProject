@@ -14,19 +14,25 @@ import com.membershipApp.MembershipAppMain;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.CacheHint;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
+  @FXML
+  private RadioButton employeeToggle;
+  @FXML
+  private RadioButton customerToggle;
   @FXML
   private View loginView;
   @FXML
@@ -54,10 +60,11 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
 
   @FXML
   void loginAttempt(ActionEvent event) {
+    currentlyLoggedUser = null;
     String surname = null;
     String email;
     String password;
-    if ((!passField.equals("")) && (!userField.equals("")) && MembershipAppMain.loggedUser.isEmpty()) {
+    if ((!passField.equals("")) && (!userField.equals("")) && MembershipAppMain.loggedUser.isEmpty() && employeeToggle.isSelected()) {
       try {
         DatabaseConnectionHandler db = new DatabaseConnectionHandler();
         db.dbServerStart();
@@ -102,6 +109,50 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
         alert.showAndWait();
         System.out.println("Please correct details");
       }
+    } else if (customerToggle.isSelected() && passField.getText().equals("123")) {
+      String name;
+      String sur;
+      Date dFrom;
+      Date dTo;
+      try {
+        DatabaseConnectionHandler db = new DatabaseConnectionHandler();
+        db.dbServerStart();
+        String sqlCustomer = "SELECT *FROM INFORMATION_SCHEMA.MEMBERSHIPVIEW WHERE EMAIL = ?";
+        PreparedStatement pst = db.getConn().prepareStatement(sqlCustomer);
+        pst.setString(1, userField.getText());
+        ResultSet rs = pst.executeQuery();
+        while (rs.next()) {
+          name = rs.getString("NAME");
+          sur = rs.getString("SURNAME");
+          email = rs.getString("EMAIL");
+          dFrom = rs.getDate("dateFrom");//customer
+          dTo = rs.getDate("dateTo");//customer
+          System.out.println("U r logged as: " + currentlyLoggedUser + " " + surname);
+          //MembershipAppMain.loggedUser.put("user", currentlyLoggedUser);
+          if (dTo != null) {
+            java.util.Date today = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+            String formattedDate = df.format(today);
+            java.util.Date dateToday = df.parse(formattedDate);
+            long todayy = dateToday.getTime();
+            long dateTo = dTo.getTime();
+            long duration = dateTo - todayy;
+            System.out.println(TimeUnit.MILLISECONDS.toDays(duration));
+            long msDiff = dTo.getTime() - Calendar.getInstance().getTimeInMillis();
+            String expiration = String.valueOf(TimeUnit.MILLISECONDS.toDays(msDiff));
+            Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Membership for: " + name + " " + sur + " is valid from: " + dFrom.toString() + " Valid to: " + dTo.toString() + " . Days remaining: " + expiration);
+            alert.showAndWait();
+            Services.get(LifecycleService.class).ifPresent(LifecycleService::shutdown);
+          }
+
+        }
+
+      } catch (SQLException e) {
+        e.printStackTrace();
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+
     } else {
       Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR, "No such user or already logged in. Please check details again");
       alert.showAndWait();
@@ -119,6 +170,14 @@ public class LoginPresenter extends GluonPresenter<MembershipAppMain> {
     loginView.setCacheShape(true);
     loginView.setCacheHint(CacheHint.SPEED);
     loginView.setShowTransitionFactory(BounceInUpTransition::new);
+    /*final BooleanProperty firstTime = new SimpleBooleanProperty(true);
+    userField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+      if (newValue && firstTime.get()) {
+        loginBut.requestFocus(); // Delegate the focus to container
+        firstTime.setValue(false); // Variable value changed for future references
+      }
+    });*/
+    javafx.application.Platform.runLater(() -> loginBut.requestFocus());
 
 
   }

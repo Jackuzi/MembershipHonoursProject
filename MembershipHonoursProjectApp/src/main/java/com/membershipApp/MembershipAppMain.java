@@ -113,7 +113,7 @@ public class MembershipAppMain extends MobileApplication {
   public void postInit(Scene scene) {
     //getLogin();
     // System.out.println(Platform.getCurrent().toString());
-    MobileApplication.getInstance().getAppBar().setVisible(false);
+    //MobileApplication.getInstance().getAppBar().setVisible(false);
     if (Platform.isAndroid()) {
     } else if ((getScreenHeight() > 800) && (getScreenWidth() > 1000) && (!Platform.isAndroid())) {
       System.out.println(MobileApplication.getInstance().getView().getName());
@@ -139,7 +139,7 @@ public class MembershipAppMain extends MobileApplication {
       System.out.println("closing");
       Services.get(LifecycleService.class).ifPresent(LifecycleService::shutdown);
     });
-    //scenicView to delete at final app
+    //scenicView to delete at final appj
     //ScenicView.show(scene);
   }
 

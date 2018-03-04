@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.gluonhq.charm.glisten.control.CharmListView?>
+<?import com.gluonhq.charm.glisten.control.TextField?>
 <?import com.gluonhq.charm.glisten.mvc.View?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -9,44 +10,39 @@
 
 <View fx:id="membershipView" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.membershipApp.views.MembershipPresenter">
     <right>
-          <VBox fx:id="vboxPane" alignment="CENTER" spacing="20.0">
-              <children>
-                  <Button mnemonicParsing="false" onAction="#searchMembership" prefWidth="100.0" text="Search">
-                      <padding>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </padding>
-                      <VBox.margin>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </VBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#changeMembership" prefWidth="100.0" text="Renew">
-                      <padding>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </padding>
-                      <VBox.margin>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </VBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#refreshList" prefWidth="100.0" text="Refresh List">
-                      <padding>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </padding>
-                      <VBox.margin>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </VBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#cancelMembership" prefWidth="100.0" text="Cancel ">
-                      <padding>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </padding>
-                      <VBox.margin>
-                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                      </VBox.margin>
-                  </Button>
-              </children>
-          </VBox>
+        <VBox fx:id="vboxPane" alignment="CENTER" spacing="20.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#changeMembership" prefWidth="100.0" text="Renew">
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshList" prefWidth="100.0" text="Refresh List">
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </VBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#cancelMembership" prefWidth="100.0" text="Cancel ">
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+        </VBox>
     </right>
     <center>
         <CharmListView fx:id="membershipList" BorderPane.alignment="CENTER" />
     </center>
+    <top>
+          <TextField fx:id="search" floatText="Search name" focusTraversable="false" promptText="Search name" styleClass="searchField" />
+    </top>
 </View>

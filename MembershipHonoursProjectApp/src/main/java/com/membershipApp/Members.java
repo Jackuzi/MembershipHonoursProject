@@ -6,6 +6,10 @@ import javafx.collections.ObservableList;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
+
 
 public class Members {
   private DatabaseConnectionHandler db;
@@ -42,7 +46,7 @@ public class Members {
         Date dFrom = null;
         Date dTo = null;
         Date dCancel = null;
-        int expiration = 0;
+        String expiration = null;
         String password = null;
         //Customer table
         if (choice == 0) {
@@ -73,7 +77,23 @@ public class Members {
               dFrom = rs2.getDate("dateFrom");//customer
               dTo = rs2.getDate("dateTo");//customer
               dCancel = rs2.getDate("cancellationDate");//customer
-              expiration = rs2.getInt("expiration");//customer
+              //expiration calculation
+              if (dTo != null) {
+                try {
+                  java.util.Date today = Calendar.getInstance().getTime();
+                  SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+                  String formattedDate = df.format(today);
+                  java.util.Date dateToday = df.parse(formattedDate);
+                  long todayy = dateToday.getTime();
+                  long dateTo = dTo.getTime();
+                  long duration = dateTo - todayy;
+                  System.out.println(TimeUnit.MILLISECONDS.toDays(duration));
+                  long msDiff = dTo.getTime() - Calendar.getInstance().getTimeInMillis();
+                  expiration = String.valueOf(TimeUnit.MILLISECONDS.toDays(msDiff));
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
             }
           }
           memberData.add(new MemberModel(idDb, nDb, sDb, stDb, hDb, tDb, eDb, pDb, cDb, dobDb, couDb, dFrom, dTo, dCancel, expiration, null, aId));

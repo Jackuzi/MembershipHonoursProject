@@ -22,6 +22,7 @@ import javafx.geometry.Side;
 import javafx.scene.CacheHint;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -187,7 +188,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
         sql = "INSERT INTO PUBLIC.EMPLOYEE(NAME, SURNAME, ADDRESSID, DOB, EMAIL, TELEPHONE) VALUES (?,?,?,?,?,?)";
 
       } else if (!newEmployeeCheckbox.isSelected()) {
-        members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Long.valueOf(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, 0, null, 0));
+        members.getMemberData().add(new MemberModel(id, getN(), getS(), getSt(), getH(), Long.valueOf(getT()), getE(), getP(), getC(), getD(), getCou(), null, null, null, null, null, 0));
         System.out.println("new customer");
         sql = "INSERT INTO PUBLIC.CUSTOMER(NAME, SURNAME, ADDRESSID, DOB, EMAIL, TELEPHONE) VALUES (?,?,?,?,?,?)";
         sqlMembership = "INSERT INTO PUBLIC.MEMBERSHIP (CUSTOMERID) VALUES (?)";
@@ -437,6 +438,7 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
   }
 
   public void initialize() {
+    custAvatarHolder.setImage(new Image(MembershipAppMain.class.getResourceAsStream("/user.png")));
     Task t = new Task() {
       @Override
       protected Object call() throws Exception {
@@ -517,45 +519,12 @@ public class ManagePresenter extends GluonPresenter<MembershipAppMain> {
       return sidePopupView;
     });
   }
- /* private void initiateViewLayers() {
-    //if (!com.gluonhq.charm.down.Platform.isDesktop()) {
-    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(tableLayer));
-    MobileApplication.getInstance().addLayerFactory("employeeTable", () -> {
-      SidePopupView sidePopupView = new SidePopupView(tableLayer);
-      return sidePopupView;
-    });
-    MobileApplication.getInstance().getView().getLayers().add(new SidePopupView(buttonStack));
-    MobileApplication.getInstance().addLayerFactory("buttonLayer", () -> {
-      SidePopupView sidePopupView = new SidePopupView(buttonStack);
-      sidePopupView.setSide(Side.RIGHT);
-      return sidePopupView;
-    });
-    Label controlsText = new Label();
-    Label customersText = new Label();
-    controlsText.setText("Controls");
-    customersText.setText("Customers");
-    MobileApplication.getInstance().getAppBar().setTitleText(customersText.getText());
-    MobileApplication.getInstance().getAppBar().setNavIcon(MaterialDesignIcon.MENU.button((e) -> {
-      MobileApplication.getInstance().showLayer("employeeTable");
-      //System.out.println("hello");
-      //MaterialDesignIcon.SEARCH.button(e -> System.out.println("search")),
-      //MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer("employeeTable")));
-    }));
-    MobileApplication.getInstance().getAppBar().getActionItems().add(controlsText);
-    MobileApplication.getInstance().getAppBar().getActionItems().add(MaterialDesignIcon.MENU.button(event1 -> {
-      MobileApplication.getInstance().showLayer(("buttonLayer"));
-    }));
-    // }
-  }
-*/
 
   private void addFieldFilter() {
-    //telField.setErrorValidator(original -> new String(""));
     telField.textProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.matches("[0-9]*")) {
         Platform.runLater(() -> telField.textProperty().set(oldValue));
       }
-      //System.out.println(oldValue + " " + newValue);
     });
   }
 }

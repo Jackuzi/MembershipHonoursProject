@@ -193,3 +193,19 @@
     -fx-border-color: green;
     -fx-border-insets: -10;
 }
+
+.searchField {
+    -fx-background-color: grey;
+    -fx-text-fill: white;
+}
+
+.dialog .button {
+    -fx-background-color: white;
+    -fx-text-fill: #2774b7;
+}
+
+.toggleText {
+    -fx-text-fill: white;
+}
+
+

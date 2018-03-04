@@ -67,7 +67,20 @@ public class MemberModel {
   private SimpleObjectProperty dFrom;
   private SimpleObjectProperty dTo;
   private SimpleObjectProperty cancelDate;
-  private SimpleIntegerProperty expiration;
+
+  public String getExpiration() {
+    return expiration.get();
+  }
+
+  public SimpleStringProperty expirationProperty() {
+    return expiration;
+  }
+
+  public void setExpiration(String expiration) {
+    this.expiration.set(expiration);
+  }
+
+  private SimpleStringProperty expiration;
   private SimpleStringProperty password;
   private SimpleIntegerProperty addressId;
 
@@ -179,18 +192,6 @@ public class MemberModel {
     this.cancelDate.set(cancelDate);
   }
 
-  public int getExpiration() {
-    return expiration.get();
-  }
-
-  public SimpleIntegerProperty expirationProperty() {
-    return expiration;
-  }
-
-  public void setExpiration(Integer expiration) {
-    this.expiration.set(expiration);
-  }
-
   public String getPostcode() {
     return postcode.get();
   }
@@ -214,7 +215,7 @@ public class MemberModel {
   }
 
   public MemberModel(int id, String name, String surname, String street, String house,
-                     Long tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, int expiration, String password, int addressId) {
+                     Long tel, String email, String postcode, String city, Object dob, String country, Date dFrom, Date dTo, Date dCancel, String expiration, String password, int addressId) {
     this.customerId = new SimpleIntegerProperty(id);
     this.name = new SimpleStringProperty(name);
     this.surname = new SimpleStringProperty(surname);
@@ -230,7 +231,7 @@ public class MemberModel {
     this.dFrom = new SimpleObjectProperty<>(dFrom);
     this.dTo = new SimpleObjectProperty<>(dTo);
     this.cancelDate = new SimpleObjectProperty<>(dCancel);
-    this.expiration = new SimpleIntegerProperty(expiration);
+    this.expiration = new SimpleStringProperty(expiration);
     this.password = new SimpleStringProperty((password));
     this.addressId = new SimpleIntegerProperty(addressId);
 

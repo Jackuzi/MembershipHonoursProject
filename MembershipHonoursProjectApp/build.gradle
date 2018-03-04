@@ -2,6 +2,7 @@ buildscript {
     repositories {
         jcenter()
         google()
+
         maven {
             url 'http://nexus.gluonhq.com/nexus/content/repositories/releases'
         }
@@ -12,7 +13,12 @@ buildscript {
         classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0-RC3'
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
 
+
     }
+}
+configurations.create('jasperreports')
+configurations.jasperreports {
+    transitive = true
 }
 
 apply plugin: 'org.javafxports.jfxmobile'
@@ -28,13 +34,16 @@ repositories {
     maven {
         url 'http://nexus.gluonhq.com/nexus/content/repositories/releases'
     }
+    maven {
+        url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/"
+    }
 
 }
 
 mainClassName = 'com.membershipApp.MembershipAppMain'
 
 dependencies {
-
+    compile 'net.sf.jasperreports:jasperreports:6.5.1'
     compile 'com.gluonhq:charm:4.4.1'
     compile 'com.gluonhq:glisten-afterburner:1.2.1'
     compile 'egulias:EmailValidator4J:1.0.0'
@@ -71,6 +80,9 @@ junitPlatform {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile group: 'com.h2database', name: 'h2', version: '1.4.196'
+    //
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
+    // compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '6.5.1'
 
     //junit
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
@@ -110,6 +122,11 @@ jfxmobile {
             exclude 'META-INF/license.txt'
             exclude 'META-INF/dependencies.txt'
             exclude 'META-INF/LGPL2.1'
+            exclude 'META-INF/LICENSE.APACHE2'
+            exclude 'META-INF/services/java.sql.Driver'
+            exclude 'LICENSE.txt'
+            exclude 'LICENSE'
+
         }
     }
     embedded {
@@ -149,4 +166,3 @@ shadowJar {
 
 
 }
-

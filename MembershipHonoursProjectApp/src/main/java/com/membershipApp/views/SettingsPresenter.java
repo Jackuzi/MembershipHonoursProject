@@ -151,5 +151,7 @@ public class SettingsPresenter extends GluonPresenter<MembershipAppMain> {
 
   }
 
+  public void search() {
+  }
 }
 

@@ -3,16 +3,14 @@ package com.membershipApp.views;
 import com.gluonhq.charm.glisten.afterburner.GluonPresenter;
 import com.gluonhq.charm.glisten.animation.BounceInUpTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.control.Alert;
-import com.gluonhq.charm.glisten.control.CharmListView;
-import com.gluonhq.charm.glisten.control.DatePicker;
-import com.gluonhq.charm.glisten.control.Dialog;
+import com.gluonhq.charm.glisten.control.*;
 import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.membershipApp.*;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -20,22 +18,26 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Comparator;
 
 public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
   @FXML
   private View membershipView;
   @FXML
-  private StackPane buttonsStackPane;
-  @FXML
   private VBox vboxPane;
   @FXML
+  private VBox vboxSearch;
+  @FXML
+  private TextField search;
+  @FXML
   private CharmListView<MemberModel, Comparable> membershipList;
+  @FXML
+  private Button refreshButton;
   private Members members = new Members();
   private ObservableList<MemberModel> mem = members.getMemberData();
   private DatePicker datePicker = new DatePicker();
@@ -44,23 +46,48 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
   private LocalDate dateTo;
   private CheckBox isCancelled = new CheckBox("Membership cancelled");
   private ListView innerList;
-  private boolean saved;
+  private FilteredList<MemberModel> filteredList = new FilteredList<>(members.getMemberData(), data -> true);
+  //private TextField searchField = new TextField();
 
 
   public void initialize() {
-    //System.out.println(member.getName());
-    membershipView.setShowTransitionFactory(v -> new BounceInUpTransition(v));
-    members.retrieveData(0);
-    membershipList = new CharmListView();
-    membershipList.setItems(mem);
-    membershipView.setCenter(membershipList);
-    membershipList.setCellFactory(p -> new MembershipCells(membershipList));
-    membershipList.setOnPullToRefresh(event -> {
-      membershipList.refresh();
-    });
+    membershipView.setShowTransitionFactory(BounceInUpTransition::new);
+    membershipList.setOnPullToRefresh(event -> membershipList.refresh());
     if ((MobileApplication.getInstance().getScreenHeight() < 800) || (MobileApplication.getInstance().getScreenWidth() < 1000)) {
       initLayers();
     }
+    filterList();
+    Platform.runLater(() -> refreshButton.requestFocus());
+  }
+
+  private void filterList() {
+    members.retrieveData(0);
+    membershipList = new CharmListView<>(filteredList);
+    membershipList.setCellFactory(pa -> new MembershipCells(membershipList, 1));
+    mem.sort(Comparator.comparing(MemberModel::getExpiration, Comparator.nullsLast(Comparator.naturalOrder())));
+    membershipView.setCenter(membershipList);
+    innerList = (ListView) membershipList.lookup(".list-view");
+    search.textProperty().addListener((observable, oldValue, newValue) -> {
+      System.out.println("here");
+      filteredList.setPredicate(data -> {
+        System.out.println(data.getName());
+        if (newValue == null || newValue.isEmpty()) {
+          System.out.println("not found or empty");
+          return true;
+        }
+        String lowerCaseSearch = newValue.toLowerCase();
+        if (data.getName().toLowerCase().contains(lowerCaseSearch)) {
+          System.out.println("found name");
+          return true; // Filter matches first name.
+        } else if (data.getSurname().toLowerCase().contains(lowerCaseSearch)) {
+          System.out.println("found surname");
+          return true; // Filter matches last name.
+        }
+        return false; // Does not match.
+      });
+    });
+
+
   }
 
   private void initLayers() {
@@ -70,9 +97,9 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
     MobileApplication.getInstance().addLayerFactory("membershipButtonsLayer", () -> new SidePopupView(vboxPane));
   }
 
-
+  @SuppressWarnings("unchecked")
   @FXML
-  void changeMembership(ActionEvent event) {
+  void changeMembership() {
     innerList = (ListView) membershipList.lookup(".list-view");
     if (membershipList.getSelectedItem().getdFrom() != null && membershipList.getSelectedItem().getdTo() != null) {
       LocalDate dTo = LocalDate.parse(membershipList.getSelectedItem().getdFrom().toString()); //gives nullpointerexce
@@ -85,13 +112,13 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
     CheckBox expiration = new CheckBox("Expired in: " + membershipList.getSelectedItem().getExpiration() + " days");
     expiration.setDisable(true);
     expiration.setStyle("-fx-text-fill: #00ff01;");
-    if (membershipList.getSelectedItem().getExpiration() <= 0) {
+    if ((membershipList.getSelectedItem().getExpiration() == null) || (Integer.valueOf(membershipList.getSelectedItem().getExpiration())) <= 0) {
       expiration.setSelected(true);
       expiration.setStyle("-fx-text-fill: #ff4100;");
     }
     if (innerList.getSelectionModel().isEmpty()) {
       MobileApplication.getInstance().showMessage("Nothing selected");
-      //read membershipdates from database
+      //read membership dates from database
     } else {
       VBox dialogContent = new VBox();
       Dialog dialog = new Dialog(true);
@@ -147,7 +174,6 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
           dialog.hide();
           refreshList();
         } else {
-          //MobileApplication.getInstance().showMessage("Membership is cancelled, to renew uncheck the checkbox");
           Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Membership is cancelled, to renew uncheck the checkbox");
           alert.showAndWait();
         }
@@ -181,11 +207,9 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
         alert.showAndWait();
       } catch (SQLException e) {
         e.printStackTrace();
-
       } finally {
         String message = "Membership Updated";
         MobileApplication.getInstance().showMessage(message);
-
       }
     } else {
       Alert alert = new Alert(javafx.scene.control.Alert.AlertType.ERROR, "Date cannot be null");
@@ -194,16 +218,12 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
   }
 
   @FXML
-  void cancelMembership(ActionEvent event) {
+  void cancelMembership() {
     innerList = (ListView) membershipList.lookup(".list-view");
     String cancelMembershipSql = "UPDATE PUBLIC.MEMBERSHIP SET CANCELLATIONDATE=? WHERE CUSTOMERID =?";
     try {
-      // System.out.println(membershipList.getSelectedItem().getCancelDate());
-      if (innerList.getSelectionModel().isEmpty())
-        /*innerList.getSelectionModel().isEmpty())*/ {
-        //System.out.println("Nothing selected");
+      if (innerList.getSelectionModel().isEmpty()) {
         MobileApplication.getInstance().showMessage("Nothing selected");
-        //Date.from(datePicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
       } else if (membershipList.getSelectedItem().getCancelDate() == null) {
         db.dbServerStart();
         PreparedStatement ps = db.getConn().prepareStatement(cancelMembershipSql);
@@ -221,10 +241,5 @@ public class MembershipPresenter extends GluonPresenter<MembershipAppMain> {
       Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION, "Membership Cancelled. To renew select renew button");
       alert.showAndWait();
     }
-
-  }
-
-  @FXML
-  void searchMembership(ActionEvent event) {
   }
 }
